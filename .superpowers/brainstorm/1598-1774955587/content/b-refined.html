@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B Refined</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;700&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #1a1a1a;
+  font-family: 'Outfit', sans-serif;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  color: #555;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+/* shared wrapper */
+.mock {
+  background: #f0ece0;
+  max-width: 480px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ══ NAVBAR VARIANTS ══════════════════════════════════ */
+.navs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  max-width: 100%;
+}
+
+.nav-option {
+  cursor: pointer;
+  position: relative;
+  border: 2px solid transparent;
+  transition: border-color 0.15s;
+}
+.nav-option:hover { border-color: #e8190c; }
+.nav-option.sel { border-color: #e8190c; }
+.nav-option.sel::after {
+  content: '✓';
+  position: absolute; top: 0.3rem; right: 0.4rem;
+  color: #e8190c;
+  font-size: 0.65rem;
+  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.nav-option .opt-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.5rem;
+  color: #555;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.5rem;
+  background: #1a1a1a;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+/* NAV 1 — issue number masthead */
+.nav1 {
+  background: #f0ece0;
+  border-bottom: 3px solid #0c0c0c;
+}
+.nav1 .top-strip {
+  background: #e8190c;
+  padding: 0.2rem 0.85rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.nav1 .top-strip span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.44rem;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.nav1 .main-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.85rem;
+}
+.nav1 .logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  color: #0c0c0c;
+  letter-spacing: 0.03em;
+  line-height: 1;
+}
+.nav1 .logo em { font-style: normal; color: #e8190c; }
+.nav1 .links {
+  display: flex;
+  gap: 1rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.46rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #888;
+}
+.nav1 .cta {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  color: #0c0c0c;
+  border-bottom: 2px solid #e8190c;
+  padding-bottom: 1px;
+}
+
+/* NAV 2 — ruled lines + issue date left-right split */
+.nav2 {
+  background: #f0ece0;
+}
+.nav2 .rule-top { height: 3px; background: #0c0c0c; }
+.nav2 .rule-red { height: 2px; background: #e8190c; }
+.nav2 .inner {
+  display: flex;
+  align-items: center;
+  padding: 0.45rem 0.85rem;
+  gap: 0.6rem;
+}
+.nav2 .issue {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.44rem;
+  color: #bbb;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.nav2 .divider { flex: 1; height: 1px; background: #ccc; }
+.nav2 .logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  color: #0c0c0c;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.nav2 .logo em { font-style: normal; color: #e8190c; }
+.nav2 .divider2 { flex: 1; height: 1px; background: #ccc; }
+.nav2 .links {
+  display: flex;
+  gap: 0.8rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.44rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #999;
+  white-space: nowrap;
+}
+.nav2 .rule-bot { height: 1px; background: #ccc; }
+
+/* NAV 3 — vertical stack, editorial header style */
+.nav3 {
+  background: #0c0c0c;
+}
+.nav3 .top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem 0.85rem;
+  border-bottom: 1px solid #1e1e1e;
+}
+.nav3 .top-row .meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.42rem;
+  color: #444;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.nav3 .top-row .cta-sm {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.42rem;
+  color: #e8190c;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.nav3 .logo-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.85rem 0.35rem;
+  position: relative;
+}
+.nav3 .logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  color: #f0ece0;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+.nav3 .logo em { font-style: normal; color: #e8190c; }
+.nav3 .links-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.28rem 0.85rem;
+  border-top: 1px solid #1e1e1e;
+}
+.nav3 .links-row span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.44rem;
+  color: #555;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.nav3 .links-row .active { color: #e8190c; }
+
+
+/* ══ FULL MOCK WITH HERO + FIXED COLUMNS ══════════════ */
+.section-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.6rem;
+  color: #555;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.full-mock {
+  background: #f0ece0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* HERO — same as before, untouched */
+.full-mock .nav-placeholder {
+  background: #0c0c0c;
+  padding: 0.35rem 0.85rem 0.28rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1e1e1e;
+}
+.full-mock .nav-placeholder .meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.42rem;
+  color: #444;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.full-mock .nav-placeholder .logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  color: #f0ece0;
+  letter-spacing: 0.04em;
+}
+.full-mock .nav-placeholder .logo em { color: #e8190c; font-style: normal; }
+.full-mock .nav-placeholder .links {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.42rem;
+  color: #555;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex; gap: 0.8rem;
+}
+
+.full-mock .spread {
+  display: grid;
+  grid-template-columns: 38% 62%;
+  border-bottom: 2px solid #0c0c0c;
+  min-height: 160px;
+}
+.full-mock .img-col {
+  background: linear-gradient(160deg, #c8c4b0 0%, #a8a498 100%);
+  position: relative; overflow: hidden;
+}
+.full-mock .img-col .img-label {
+  position: absolute; bottom: 0.5rem; left: 0.6rem;
+  font-family: 'IBM Plex Mono', monospace; font-size: 0.42rem;
+  color: rgba(0,0,0,0.35); letter-spacing: 0.1em; text-transform: uppercase;
+}
+.full-mock .img-col::after {
+  content: '';
+  position: absolute; top: 0; right: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 0 50px 50px;
+  border-color: transparent transparent #f0ece0 transparent;
+}
+.full-mock .type-col {
+  padding: 0.85rem 0.9rem 0.85rem 0.4rem;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.full-mock .type-col .issue-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.46rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: #e8190c; font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.full-mock .type-col h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3.4rem; line-height: 0.82; color: #0c0c0c;
+  letter-spacing: 0.01em;
+}
+.full-mock .type-col h2 .red-line {
+  display: block; color: #e8190c;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-style: italic; font-weight: 900; font-size: 2.8rem;
+}
+.full-mock .type-col .deck {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.54rem; color: #666;
+  margin-top: 0.45rem; line-height: 1.6; max-width: 92%;
+}
+.full-mock .type-col .cta {
+  display: inline-block; margin-top: 0.6rem;
+  background: #e8190c; color: #fff;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.5rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 0.32rem 0.65rem;
+}
+
+/* ══ COLUMNS SECTION — the part we're fixing ══════════ */
+/* Section header strip */
+.full-mock .cols-section {
+  background: #f0ece0;
+}
+.full-mock .cols-strip-hdr {
+  background: #0c0c0c;
+  padding: 0.35rem 0.85rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 2px solid #e8190c;
+}
+.full-mock .cols-strip-hdr .hdr-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem;
+  color: #f0ece0;
+  letter-spacing: 0.06em;
+}
+.full-mock .cols-strip-hdr .hdr-meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.42rem;
+  color: #555;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* 3 columns */
+.full-mock .cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 2px solid #0c0c0c;
+}
+.full-mock .col {
+  padding: 0.65rem 0.7rem;
+  border-right: 1px solid #cdc8b8;
+}
+.full-mock .col:last-child { border-right: none; }
+
+/* Column heading — large, editorial */
+.full-mock .col .col-head {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: #0c0c0c;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.45rem;
+  border-bottom: 2px solid #0c0c0c;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.full-mock .col .col-head .count {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.44rem;
+  font-weight: 400;
+  color: #bbb;
+  letter-spacing: 0.1em;
+}
+
+/* Individual workout item */
+.full-mock .w-item {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #e0dcd0;
+  cursor: pointer;
+}
+.full-mock .w-item:last-child { border-bottom: none; }
+
+.full-mock .w-item .w-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: #0c0c0c;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+}
+.full-mock .w-item .w-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.15rem;
+}
+.full-mock .w-item .w-meta {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.44rem;
+  color: #aaa;
+  letter-spacing: 0.04em;
+}
+/* duration tag — clean pill, no arrow */
+.full-mock .w-item .w-dur {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.44rem;
+  font-weight: 700;
+  color: #e8190c;
+  letter-spacing: 0.06em;
+}
+
+/* Stats row at very bottom */
+.full-mock .stats-foot {
+  display: flex;
+  border-top: 2px solid #0c0c0c;
+  background: #0c0c0c;
+}
+.full-mock .sf-item {
+  flex: 1;
+  padding: 0.5rem 0.6rem;
+  text-align: center;
+  border-right: 1px solid #1e1e1e;
+}
+.full-mock .sf-item:last-child { border-right: none; }
+.full-mock .sf-item .sfn {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  color: #f0ece0;
+  line-height: 1;
+}
+.full-mock .sf-item .sfn em { color: #e8190c; font-style: normal; }
+.full-mock .sf-item .sfl {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.42rem;
+  color: #555;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 0.1rem;
+}
+
+</style>
+<script>
+function pickNav(el) {
+  document.querySelectorAll('.nav-option').forEach(n => n.classList.remove('sel'));
+  el.classList.add('sel');
+  try { fetch('/event',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'click',choice:'nav-'+el.dataset.n,text:el.querySelector('.opt-label').textContent})}); } catch(e){}
+}
+</script>
+</head>
+<body>
+
+<!-- NAVBAR OPTIONS -->
+<div>
+  <div class="label">Step 1 — Pick a navbar style (the hero stays the same)</div>
+  <div class="navs">
+
+    <!-- NAV 1: red top strip + rules + centered logo -->
+    <div class="nav-option" data-n="1" onclick="pickNav(this)">
+      <div class="opt-label">Nav A — Red top strip</div>
+      <div class="nav1">
+        <div class="top-strip">
+          <span>Free · No Signup Required</span>
+          <span>50+ Exercises · 12 Workouts</span>
+        </div>
+        <div class="main-row">
+          <span class="logo">FIT<em>START</em></span>
+          <div class="links"><span>Exercises</span><span>Programs</span><span>Today</span></div>
+          <span class="cta">Start Now</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAV 2: double ruled lines, logo centered between rules -->
+    <div class="nav-option" data-n="2" onclick="pickNav(this)">
+      <div class="opt-label">Nav B — Ruled masthead</div>
+      <div class="nav2">
+        <div class="rule-top"></div>
+        <div class="rule-red"></div>
+        <div class="inner">
+          <span class="issue">Training Platform</span>
+          <div class="divider"></div>
+          <span class="logo">FIT<em>START</em></span>
+          <div class="divider2"></div>
+          <div class="links"><span>Exercises</span><span>Programs</span><span>Today</span></div>
+        </div>
+        <div class="rule-bot"></div>
+      </div>
+    </div>
+
+    <!-- NAV 3: dark masthead, centered logo, links below -->
+    <div class="nav-option" data-n="3" onclick="pickNav(this)">
+      <div class="opt-label">Nav C — Dark editorial masthead</div>
+      <div class="nav3">
+        <div class="top-row">
+          <span class="meta">Training Platform · Free</span>
+          <span class="cta-sm">→ Start Now</span>
+        </div>
+        <div class="logo-row">
+          <span class="logo">FIT<em>START</em></span>
+        </div>
+        <div class="links-row">
+          <span>Exercises</span>
+          <span class="active">Workouts</span>
+          <span>Programs</span>
+          <span>Today</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FULL PAGE MOCK — fixed columns, no ugly arrows -->
+<div>
+  <div class="label">Full page — hero (unchanged) + fixed columns below</div>
+  <div class="full-mock">
+
+    <!-- Nav placeholder (use whichever nav you pick above) -->
+    <div class="nav-placeholder">
+      <span class="meta">Training Platform · Free</span>
+      <span class="logo">FIT<em>START</em></span>
+      <div class="links"><span>Exercises</span><span>Programs</span><span>Today</span></div>
+    </div>
+
+    <!-- HERO — same as before -->
+    <div class="spread">
+      <div class="img-col">
+        <span class="img-label">// Athlete</span>
+      </div>
+      <div class="type-col">
+        <div class="issue-tag">→ Free · No Signup</div>
+        <h2>NO<br/>EXCUSES.<br/><span class="red-line">Start Now.</span></h2>
+        <p class="deck">Free workouts matched in seconds. No gym, no equipment, no barriers. Pick a goal.</p>
+        <span class="cta">Generate Workout</span>
+      </div>
+    </div>
+
+    <!-- COLUMNS — fixed -->
+    <div class="cols-section">
+      <div class="cols-strip-hdr">
+        <span class="hdr-title">Find a Workout</span>
+        <span class="hdr-meta">12 workouts · filter by goal</span>
+      </div>
+      <div class="cols">
+
+        <div class="col">
+          <div class="col-head">Strength <span class="count">04</span></div>
+          <div class="w-item">
+            <div class="w-name">Full Body Blast</div>
+            <div class="w-row">
+              <span class="w-meta">Bodyweight · Beginner</span>
+              <span class="w-dur">30 min</span>
+            </div>
+          </div>
+          <div class="w-item">
+            <div class="w-name">Upper Body Power</div>
+            <div class="w-row">
+              <span class="w-meta">Dumbbells · Inter.</span>
+              <span class="w-dur">35 min</span>
+            </div>
+          </div>
+          <div class="w-item">
+            <div class="w-name">Leg Day</div>
+            <div class="w-row">
+              <span class="w-meta">Bodyweight · Beginner</span>
+              <span class="w-dur">30 min</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="col-head">Cardio <span class="count">03</span></div>
+          <div class="w-item">
+            <div class="w-name">Morning Cardio</div>
+            <div class="w-row">
+              <span class="w-meta">No Equipment · Beginner</span>
+              <span class="w-dur">20 min</span>
+            </div>
+          </div>
+          <div class="w-item">
+            <div class="w-name">HIIT Blast</div>
+            <div class="w-row">
+              <span class="w-meta">None · Intermediate</span>
+              <span class="w-dur">30 min</span>
+            </div>
+          </div>
+          <div class="w-item">
+            <div class="w-name">Endurance Run</div>
+            <div class="w-row">
+              <span class="w-meta">Outdoors · Beginner</span>
+              <span class="w-dur">25 min</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="col-head">Core <span class="count">05</span></div>
+          <div class="w-item">
+            <div class="w-name">Core Crusher</div>
+            <div class="w-row">
+              <span class="w-meta">Mat · Intermediate</span>
+              <span class="w-dur">25 min</span>
+            </div>
+          </div>
+          <div class="w-item">
+            <div class="w-name">Plank Circuit</div>
+            <div class="w-row">
+              <span class="w-meta">None · Beginner</span>
+              <span class="w-dur">15 min</span>
+            </div>
+          </div>
+          <div class="w-item">
+            <div class="w-name">Ab Finisher</div>
+            <div class="w-row">
+              <span class="w-meta">Mat · Inter.</span>
+              <span class="w-dur">20 min</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Stats footer -->
+    <div class="stats-foot">
+      <div class="sf-item"><div class="sfn"><em>50</em>+</div><div class="sfl">Exercises</div></div>
+      <div class="sf-item"><div class="sfn">12</div><div class="sfl">Workouts</div></div>
+      <div class="sf-item"><div class="sfn">3</div><div class="sfl">Programs</div></div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,16 +1,22 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Manrope, Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const manrope = Manrope({
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-display",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-body",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -20,17 +26,42 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorPrimary: '#ff4d3d',
+          colorBackground: '#0f1115',
+          colorText: '#f5f6f8',
+          colorTextSecondary: '#a1a6b4',
+          colorInputBackground: '#1e2128',
+          colorInputText: '#f5f6f8',
+          colorShimmer: '#333742',
+        },
+        elements: {
+          card: {
+            backgroundColor: '#0f1115',
+            border: '1px solid #333742',
+          },
+          popoverBox: {
+            backgroundColor: '#0f1115',
+            border: '1px solid #333742',
+          },
+        }
+      }}
     >
-      <body className="bg-zinc-950 min-h-screen flex flex-col text-zinc-50">
-        <Navbar />
-        <main className="flex-1 pt-16">
-          {children}
-        </main>
-        <Footer />
-      </body>
-    </html>
+      <html
+        lang="en"
+        className={`${manrope.variable} ${inter.variable} h-full antialiased`}
+      >
+        <body className="min-h-screen flex flex-col font-sans bg-zinc-950 text-zinc-100">
+          <Navbar />
+          <main className="flex-1 pt-20">
+            {children}
+          </main>
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

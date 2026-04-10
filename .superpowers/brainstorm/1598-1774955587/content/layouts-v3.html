@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radical Layouts v3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;700&family=Barlow+Condensed:ital,wght@0,400;0,700;0,800;0,900;1,900&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #111;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  padding: 1.5rem;
+  min-height: 100vh;
+}
+.page-hdr { margin-bottom: 1.4rem; }
+.page-hdr h1 { font-family:'IBM Plex Mono',monospace; font-size:0.68rem; color:#444; letter-spacing:.18em; text-transform:uppercase; }
+.page-hdr p  { font-family:'IBM Plex Mono',monospace; font-size:0.6rem; color:#2e2e2e; margin-top:.2rem; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* shared card chrome */
+.card {
+  cursor: pointer;
+  border: 2px solid #1c1c1c;
+  overflow: hidden;
+  transition: border-color .15s, transform .2s, box-shadow .2s;
+  position: relative;
+}
+.card:hover { transform: translateY(-5px); box-shadow: 0 24px 60px rgba(0,0,0,.7); }
+.card.sel { border-color: #e8190c; }
+.card.sel::after {
+  content: '✓ SELECTED';
+  position: absolute; top:.5rem; right:.5rem;
+  background: #e8190c; color:#fff;
+  font-size:.52rem; font-weight:700;
+  font-family:'IBM Plex Mono',monospace;
+  letter-spacing:.1em; text-transform:uppercase;
+  padding:.18rem .45rem; z-index:20;
+}
+
+
+/* ══════════════════════════════════════════════════════
+   A — TICKER TAPE / TRAINING LOG
+   Dark, typewriter mono, horizontal ticker, heavy use of
+   ruled lines. Feels like a coach's clipboard or a printed
+   training schedule pinned to a gym wall.
+══════════════════════════════════════════════════════ */
+.a { background: #0d0d0d; font-family:'IBM Plex Mono',monospace; }
+
+/* scrolling ticker at top */
+.a .ticker-wrap {
+  background: #e8190c;
+  overflow: hidden;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+.a .ticker {
+  display: flex;
+  gap: 2rem;
+  animation: ticker-scroll 12s linear infinite;
+  white-space: nowrap;
+}
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.a .ticker span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: .52rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.a .ticker .sep { color: rgba(255,255,255,.3); }
+
+.a .top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .45rem .8rem;
+  border-bottom: 1px solid #1e1e1e;
+}
+.a .top-bar .logo {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.05rem; color:#f0ece0; letter-spacing:.04em;
+}
+.a .top-bar .logo em { font-style:normal; color:#e8190c; }
+.a .top-bar .date {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.46rem; color:#333; letter-spacing:.1em;
+}
+
+/* big TYPE hero — number + word stacked */
+.a .hero {
+  padding: .9rem .85rem .75rem;
+  border-bottom: 1px solid #1e1e1e;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .7rem;
+  align-items: center;
+}
+.a .hero .big-num {
+  font-family:'Bebas Neue',sans-serif;
+  font-size: 5.5rem;
+  line-height: 1;
+  color: #e8190c;
+  letter-spacing: -.02em;
+  border-right: 2px solid #1e1e1e;
+  padding-right: .7rem;
+}
+.a .hero .hero-right {}
+.a .hero .eyebrow {
+  font-size:.46rem; color:#333; letter-spacing:.18em;
+  text-transform:uppercase; margin-bottom:.3rem;
+}
+.a .hero h2 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2rem; color:#f0ece0; line-height:.88;
+  letter-spacing:.02em; text-transform:uppercase;
+}
+.a .hero p {
+  font-size:.56rem; color:#555; margin-top:.4rem; line-height:1.55;
+}
+.a .hero .cta {
+  display:inline-block; margin-top:.5rem;
+  background:#e8190c; color:#fff;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.5rem; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; padding:.3rem .65rem;
+}
+
+/* ruled list of workouts */
+.a .log-header {
+  display:grid; grid-template-columns: 28px 1fr 60px 36px;
+  padding:.3rem .85rem;
+  background:#111;
+  border-bottom: 2px solid #1e1e1e;
+}
+.a .log-header span {
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.42rem; color:#333; letter-spacing:.14em; text-transform:uppercase;
+}
+.a .log-row {
+  display:grid; grid-template-columns: 28px 1fr 60px 36px;
+  padding:.42rem .85rem;
+  border-bottom:1px solid #161616;
+  align-items:center;
+}
+.a .log-row .rnum {
+  font-family:'IBM Plex Mono',monospace; font-size:.55rem; color:#333; font-weight:700;
+}
+.a .log-row .rname {
+  font-family:'IBM Plex Mono',monospace; font-size:.6rem; font-weight:700;
+  color:#e0dcd0; text-transform:uppercase; letter-spacing:.04em;
+}
+.a .log-row .rsub {
+  font-family:'IBM Plex Mono',monospace; font-size:.46rem; color:#444; margin-top:.08rem;
+}
+.a .log-row .rmeta {
+  font-family:'IBM Plex Mono',monospace; font-size:.5rem; color:#444;
+}
+.a .log-row .rgo {
+  font-family:'Bebas Neue',sans-serif; font-size:.85rem; color:#e8190c; text-align:right;
+}
+
+.a .dir-info {
+  background:#0a0a0a; border-top:1px solid #1e1e1e; padding:.6rem .85rem;
+}
+.a .dir-info h3 {
+  font-family:'Bebas Neue',sans-serif; font-size:.95rem; color:#f0ece0;
+  letter-spacing:.03em; margin-bottom:.2rem;
+}
+.a .dir-info p {
+  font-family:'IBM Plex Mono',monospace; font-size:.54rem; color:#444; line-height:1.5;
+}
+
+
+/* ══════════════════════════════════════════════════════
+   B — THE MAGAZINE SPREAD
+   Full-bleed cream page. Giant image overlapped by huge
+   type that breaks out of its box. More like opening a
+   glossy sports mag than visiting a website.
+══════════════════════════════════════════════════════ */
+.b { background: #f0ece0; font-family:'Barlow Condensed',sans-serif; }
+
+.b .nav {
+  background: #f0ece0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .45rem .85rem;
+  border-bottom: 3px double #0c0c0c;
+}
+.b .nav .logo {
+  font-family:'Bebas Neue',sans-serif; font-size:1.05rem; color:#0c0c0c; letter-spacing:.04em;
+}
+.b .nav .logo em { font-style:normal; color:#e8190c; }
+.b .nav .nav-links {
+  display:flex; gap:.8rem;
+  font-family:'IBM Plex Mono',monospace; font-size:.46rem;
+  letter-spacing:.1em; text-transform:uppercase; color:#999;
+}
+.b .nav .cta-pill {
+  background:#0c0c0c; color:#f0ece0;
+  font-family:'IBM Plex Mono',monospace; font-size:.46rem;
+  font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  padding:.22rem .5rem;
+}
+
+/* SPREAD HERO: left = image box, right = huge type overflowing left boundary */
+.b .spread {
+  display:grid;
+  grid-template-columns: 38% 62%;
+  background: #f0ece0;
+  border-bottom: 2px solid #0c0c0c;
+  min-height: 150px;
+}
+.b .spread .img-col {
+  background: linear-gradient(160deg, #d0cabb 0%, #b8b4a0 100%);
+  position:relative; overflow:hidden;
+}
+.b .spread .img-col .img-label {
+  position:absolute; bottom:.5rem; left:.5rem;
+  font-family:'IBM Plex Mono',monospace; font-size:.44rem;
+  color:rgba(0,0,0,.4); letter-spacing:.1em; text-transform:uppercase;
+}
+/* decorative diagonal rule on image */
+.b .spread .img-col::after {
+  content:'';
+  position:absolute; top:0; right:0;
+  width:0; height:0;
+  border-style:solid;
+  border-width:0 0 50px 50px;
+  border-color:transparent transparent #f0ece0 transparent;
+}
+.b .spread .type-col {
+  padding:.7rem .85rem .7rem .3rem;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  position:relative;
+}
+.b .spread .issue-tag {
+  font-family:'IBM Plex Mono',monospace; font-size:.46rem;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:#e8190c; font-weight:700; margin-bottom:.35rem;
+}
+.b .spread h2 {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3.4rem; line-height:.82; color:#0c0c0c;
+  letter-spacing:.01em;
+}
+/* last line in red + italic barlow */
+.b .spread h2 .red-line {
+  display:block; color:#e8190c;
+  font-family:'Barlow Condensed',sans-serif;
+  font-style:italic; font-weight:900;
+  font-size:2.8rem;
+}
+.b .spread .deck {
+  font-family:'IBM Plex Mono',monospace; font-size:.54rem;
+  color:#666; margin-top:.45rem; line-height:1.55; max-width:90%;
+}
+.b .spread .cta {
+  display:inline-block; margin-top:.55rem;
+  background:#e8190c; color:#fff;
+  font-family:'IBM Plex Mono',monospace; font-size:.5rem;
+  font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  padding:.3rem .65rem;
+}
+
+/* 3-col content below */
+.b .columns-wrap {
+  border-bottom: 2px solid #0c0c0c;
+}
+.b .col-hdr {
+  background:#0c0c0c; padding:.28rem .85rem;
+  display:flex; align-items:center; gap:.6rem;
+}
+.b .col-hdr span {
+  font-family:'IBM Plex Mono',monospace; font-size:.44rem;
+  color:#555; letter-spacing:.14em; text-transform:uppercase;
+}
+.b .col-hdr .sep { color:#222; }
+.b .cols { display:grid; grid-template-columns:1fr 1fr 1fr; }
+.b .col {
+  padding:.5rem .65rem;
+  border-right:1px solid #d8d4c8;
+}
+.b .col:last-child { border-right:none; }
+.b .col .c-head {
+  font-family:'Bebas Neue',sans-serif; font-size:1rem;
+  color:#0c0c0c; letter-spacing:.02em; border-bottom:1.5px solid #0c0c0c;
+  padding-bottom:.18rem; margin-bottom:.3rem;
+}
+.b .col-item { padding:.3rem 0; border-bottom:1px dashed #d0ccc0; }
+.b .col-item:last-child { border-bottom:none; }
+.b .col-item .cn { font-family:'IBM Plex Mono',monospace; font-size:.55rem; font-weight:700; color:#0c0c0c; text-transform:uppercase; letter-spacing:.03em; }
+.b .col-item .cm { font-family:'IBM Plex Mono',monospace; font-size:.44rem; color:#999; margin-top:.06rem; }
+.b .col-item .cg { font-family:'Bebas Neue',sans-serif; font-size:.8rem; color:#e8190c; }
+
+.b .dir-info { background:#0c0c0c; padding:.65rem .85rem; }
+.b .dir-info h3 { font-family:'Bebas Neue',sans-serif; font-size:.95rem; color:#f0ece0; letter-spacing:.03em; margin-bottom:.22rem; }
+.b .dir-info p { font-family:'IBM Plex Mono',monospace; font-size:.54rem; color:#555; line-height:1.5; }
+
+
+/* ══════════════════════════════════════════════════════
+   C — DARK CROSSFIT / FIGHT CARD
+   Inspired by UFC / Hyrox event pages. Diagonal cuts,
+   big athlete silhouette space, very aggressive.
+══════════════════════════════════════════════════════ */
+.c { background: #090909; font-family:'Barlow Condensed',sans-serif; }
+
+.c .nav {
+  background:#090909; padding:.5rem .85rem;
+  display:flex; align-items:center; justify-content:space-between;
+  position:relative; z-index:2;
+}
+/* Red underline stripe */
+.c .nav::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, #e8190c 60%, transparent 100%);
+}
+.c .nav .logo { font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:#fff; letter-spacing:.04em; }
+.c .nav .logo em { font-style:normal; color:#e8190c; }
+.c .nav .right { display:flex; align-items:center; gap:.7rem; }
+.c .nav .link { font-family:'IBM Plex Mono',monospace; font-size:.46rem; color:#444; letter-spacing:.1em; text-transform:uppercase; }
+.c .nav .cta { background:#e8190c; color:#fff; font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; padding:.28rem .6rem; }
+
+/* HERO: dark + diagonal clip reveals "red zone" */
+.c .hero-zone {
+  position:relative; overflow:hidden; min-height:170px;
+  background:#090909;
+}
+/* Diagonal cut: red triangle top-right */
+.c .hero-zone .red-slash {
+  position:absolute; top:0; right:0;
+  width:0; height:0;
+  border-style:solid;
+  border-width:0 120px 170px 0;
+  border-color:transparent #e8190c transparent transparent;
+  opacity:.9;
+}
+.c .hero-zone .red-slash-text {
+  position:absolute; top:12px; right:4px;
+  font-family:'Bebas Neue',sans-serif; font-size:.72rem; color:#fff;
+  letter-spacing:.04em; writing-mode:vertical-rl; transform:rotate(180deg);
+  opacity:.6;
+}
+/* Grid dots texture */
+.c .hero-zone .grid-tex {
+  position:absolute; inset:0;
+  background-image: radial-gradient(circle, #1c1c1c 1px, transparent 1px);
+  background-size:16px 16px;
+  opacity:.6;
+}
+.c .hero-zone .hero-content {
+  position:relative; z-index:1;
+  padding:1rem .85rem .9rem;
+}
+.c .hero-zone .label {
+  font-family:'IBM Plex Mono',monospace; font-size:.48rem;
+  color:#e8190c; letter-spacing:.2em; text-transform:uppercase;
+  margin-bottom:.4rem;
+  display:flex; align-items:center; gap:.4rem;
+}
+.c .hero-zone .label::before { content:''; width:18px; height:1.5px; background:#e8190c; }
+.c .hero-zone h2 {
+  font-family:'Barlow Condensed',sans-serif; font-weight:900;
+  font-size:3.4rem; line-height:.85; letter-spacing:.02em;
+  text-transform:uppercase;
+}
+.c .hero-zone h2 .line1 { display:block; color:#f0f0f0; }
+.c .hero-zone h2 .line2 { display:block; color:#f0f0f0; }
+.c .hero-zone h2 .line3 { display:block; font-style:italic; color:#e8190c; }
+.c .hero-zone p {
+  font-family:'Outfit',sans-serif; font-size:.6rem; color:#555;
+  margin-top:.45rem; line-height:1.5; max-width:70%;
+}
+.c .hero-zone .hero-cta {
+  display:inline-flex; align-items:center; gap:.4rem;
+  margin-top:.6rem;
+  background:#e8190c; color:#fff;
+  font-family:'Barlow Condensed',sans-serif; font-weight:800;
+  font-size:.68rem; letter-spacing:.12em; text-transform:uppercase;
+  padding:.35rem .75rem; clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));
+}
+
+/* Stats — full width strip */
+.c .stats-strip {
+  display:flex; background:#111;
+  border-top:1px solid #1a1a1a; border-bottom:1px solid #1a1a1a;
+}
+.c .stat {
+  flex:1; text-align:center; padding:.5rem .4rem;
+  border-right:1px solid #1a1a1a; position:relative;
+}
+.c .stat:last-child { border-right:none; }
+.c .stat::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:24px; height:2px; background:#e8190c;
+}
+.c .stat .n { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:1.7rem; color:#f0f0f0; line-height:1; }
+.c .stat .l { font-family:'IBM Plex Mono',monospace; font-size:.44rem; color:#333; letter-spacing:.1em; text-transform:uppercase; margin-top:.1rem; }
+
+/* Fight-card style workout rows */
+.c .card-list { padding:.6rem .85rem; }
+.c .card-row {
+  display:flex; align-items:center; gap:.5rem;
+  padding:.42rem 0; border-bottom:1px solid #131313;
+  position:relative;
+}
+.c .card-row:last-child { border-bottom:none; }
+/* left accent — random red for "featured" */
+.c .card-row .tag {
+  font-family:'Barlow Condensed',sans-serif; font-weight:800;
+  font-size:.52rem; letter-spacing:.06em; text-transform:uppercase;
+  padding:.12rem .32rem; flex-shrink:0;
+  clip-path:polygon(0 0,calc(100% - 4px) 0,100% 4px,100% 100%,4px 100%,0 calc(100% - 4px));
+}
+.c .card-row .tag.str { background:rgba(232,25,12,.12); color:#e8190c; }
+.c .card-row .tag.crd { background:rgba(232,25,12,.06); color:#883333; }
+.c .card-row .rname {
+  font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; color:#e0e0e0; flex:1;
+}
+.c .card-row .rmeta {
+  font-family:'IBM Plex Mono',monospace; font-size:.46rem; color:#333;
+}
+.c .card-row .rgo {
+  font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:.85rem;
+  color:#e8190c; letter-spacing:.04em;
+}
+
+.c .dir-info { background:#0d0d0d; border-top:1px solid #1a1a1a; padding:.6rem .85rem; }
+.c .dir-info h3 { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:.95rem; color:#f0f0f0; letter-spacing:.04em; text-transform:uppercase; margin-bottom:.22rem; }
+.c .dir-info p { font-family:'IBM Plex Mono',monospace; font-size:.54rem; color:#444; line-height:1.5; }
+
+</style>
+<script>
+function pick(el) {
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  try { fetch('/event',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'click',choice:el.dataset.c,text:el.dataset.l})}); } catch(e){}
+}
+</script>
+</head>
+<body>
+
+<div class="page-hdr">
+  <h1>Layouts v3 — Completely Different</h1>
+  <p>Three distinct concepts. Structure, personality, and typography all different. Click to select.</p>
+</div>
+
+<div class="grid">
+
+  <!-- A: TICKER / TRAINING LOG -->
+  <div class="card a" data-c="a" data-l="Training Log — ticker tape + ruled rows + big red number" onclick="pick(this)">
+    <div class="ticker-wrap">
+      <div class="ticker">
+        <span>FREE WORKOUTS</span><span class="sep">·</span>
+        <span>NO SIGNUP</span><span class="sep">·</span>
+        <span>50+ EXERCISES</span><span class="sep">·</span>
+        <span>NO EXCUSES</span><span class="sep">·</span>
+        <span>START TODAY</span><span class="sep">·</span>
+        <span>FREE WORKOUTS</span><span class="sep">·</span>
+        <span>NO SIGNUP</span><span class="sep">·</span>
+        <span>50+ EXERCISES</span><span class="sep">·</span>
+        <span>NO EXCUSES</span><span class="sep">·</span>
+        <span>START TODAY</span><span class="sep">·</span>
+      </div>
+    </div>
+    <div class="top-bar">
+      <span class="logo">FIT<em>START</em></span>
+      <span class="date">// Training Platform · 2026</span>
+    </div>
+    <div class="hero">
+      <div class="big-num">12</div>
+      <div class="hero-right">
+        <div class="eyebrow">// Workouts ready now</div>
+        <h2>PICK ONE.<br/>START NOW.</h2>
+        <p>Free, structured workouts. No gym needed.</p>
+        <span class="cta">→ Generate Mine</span>
+      </div>
+    </div>
+    <div class="log-header">
+      <span>#</span><span>Workout</span><span>Duration</span><span></span>
+    </div>
+    <div class="log-row">
+      <span class="rnum">01</span>
+      <div><div class="rname">Full Body Blast</div><div class="rsub">Bodyweight · Beginner</div></div>
+      <span class="rmeta">30 min</span>
+      <span class="rgo">→</span>
+    </div>
+    <div class="log-row">
+      <span class="rnum">02</span>
+      <div><div class="rname">Morning Cardio</div><div class="rsub">No Equipment · Beginner</div></div>
+      <span class="rmeta">20 min</span>
+      <span class="rgo">→</span>
+    </div>
+    <div class="log-row">
+      <span class="rnum">03</span>
+      <div><div class="rname">Core Crusher</div><div class="rsub">Mat · Intermediate</div></div>
+      <span class="rmeta">25 min</span>
+      <span class="rgo">→</span>
+    </div>
+    <div class="log-row">
+      <span class="rnum">04</span>
+      <div><div class="rname">Upper Body Power</div><div class="rsub">Dumbbells · Intermediate</div></div>
+      <span class="rmeta">35 min</span>
+      <span class="rgo">→</span>
+    </div>
+    <div class="dir-info">
+      <h3>A — Training Log</h3>
+      <p>Scrolling ticker at the top. Big red stat number anchors the hero. Content is a clean ruled log table — like a real training sheet. Typewriter mono throughout. Zero decoration, all structure.</p>
+    </div>
+  </div>
+
+
+  <!-- B: MAGAZINE SPREAD -->
+  <div class="card b" data-c="b" data-l="Magazine Spread — cream paper, image left, giant type right, columns below" onclick="pick(this)">
+    <div class="nav">
+      <span class="logo">FIT<em>START</em></span>
+      <div class="nav-links"><span>Exercises</span><span>Programs</span><span>Today</span></div>
+      <span class="cta-pill">→ Start</span>
+    </div>
+    <div class="spread">
+      <div class="img-col">
+        <span class="img-label">// Athlete</span>
+      </div>
+      <div class="type-col">
+        <div class="issue-tag">→ Free · No Signup</div>
+        <h2>NO<br/>EXCUSES.<br/><span class="red-line">Start Now.</span></h2>
+        <p class="deck">Free workouts matched in seconds. No gym, no equipment. Pick a goal — we handle the rest.</p>
+        <span class="cta">→ Generate Workout</span>
+      </div>
+    </div>
+    <div class="columns-wrap">
+      <div class="col-hdr">
+        <span>Strength</span><span class="sep">/</span>
+        <span>Cardio</span><span class="sep">/</span>
+        <span>Core</span>
+      </div>
+      <div class="cols">
+        <div class="col">
+          <div class="c-head">Strength</div>
+          <div class="col-item"><div class="cn">Full Body Blast</div><div class="cm">30 min · Bodyweight</div><div class="cg">→ GO</div></div>
+          <div class="col-item"><div class="cn">Upper Body</div><div class="cm">25 min · Dumbbells</div><div class="cg">→ GO</div></div>
+        </div>
+        <div class="col">
+          <div class="c-head">Cardio</div>
+          <div class="col-item"><div class="cn">Morning Cardio</div><div class="cm">20 min · None</div><div class="cg">→ GO</div></div>
+          <div class="col-item"><div class="cn">HIIT Blast</div><div class="cm">30 min · None</div><div class="cg">→ GO</div></div>
+        </div>
+        <div class="col">
+          <div class="c-head">Core</div>
+          <div class="col-item"><div class="cn">Core Crusher</div><div class="cm">25 min · Mat</div><div class="cg">→ GO</div></div>
+          <div class="col-item"><div class="cn">Plank Circuit</div><div class="cm">15 min · None</div><div class="cg">→ GO</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="dir-info">
+      <h3>B — Magazine Spread</h3>
+      <p>Cream paper. Left: photo placeholder. Right: large type with an italic red closing line. Below: 3-column editorial layout like a sports magazine contents page. Barlow Condensed italic for attitude.</p>
+    </div>
+  </div>
+
+
+  <!-- C: FIGHT CARD / HYROX -->
+  <div class="card c" data-c="c" data-l="Fight Card — dark, diagonal red slash, Barlow Condensed, aggressive" onclick="pick(this)">
+    <div class="nav">
+      <span class="logo">FIT<em>START</em></span>
+      <div class="right">
+        <span class="link">Exercises</span>
+        <span class="link">Programs</span>
+        <span class="cta">Start Now</span>
+      </div>
+    </div>
+    <div class="hero-zone">
+      <div class="grid-tex"></div>
+      <div class="red-slash"></div>
+      <span class="red-slash-text">FITSTART</span>
+      <div class="hero-content">
+        <div class="label">Free · No Signup</div>
+        <h2>
+          <span class="line1">NO</span>
+          <span class="line2">EXCUSES.</span>
+          <span class="line3">Start.</span>
+        </h2>
+        <p>Free structured workouts. No gym. No equipment. No barriers.</p>
+        <span class="hero-cta">→ Generate Workout</span>
+      </div>
+    </div>
+    <div class="stats-strip">
+      <div class="stat"><div class="n">50+</div><div class="l">Exercises</div></div>
+      <div class="stat"><div class="n">12</div><div class="l">Workouts</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">Programs</div></div>
+    </div>
+    <div class="card-list">
+      <div class="card-row">
+        <span class="tag str">STR</span>
+        <span class="rname">Full Body Blast</span>
+        <span class="rmeta">30 min</span>
+        <span class="rgo">GO →</span>
+      </div>
+      <div class="card-row">
+        <span class="tag crd">CRD</span>
+        <span class="rname">Morning Cardio</span>
+        <span class="rmeta">20 min</span>
+        <span class="rgo">GO →</span>
+      </div>
+      <div class="card-row">
+        <span class="tag str">CORE</span>
+        <span class="rname">Core Crusher</span>
+        <span class="rmeta">25 min</span>
+        <span class="rgo">GO →</span>
+      </div>
+      <div class="card-row">
+        <span class="tag crd">CRD</span>
+        <span class="rname">HIIT Blast</span>
+        <span class="rmeta">30 min</span>
+        <span class="rgo">GO →</span>
+      </div>
+    </div>
+    <div class="dir-info">
+      <h3>C — Fight Card</h3>
+      <p>Inspired by UFC event pages + Hyrox. Diagonal red slash cuts the hero. Dot-grid texture. Barlow Condensed italic in red. Clipped-corner CTA button. Very aggressive, very athletic.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,113 +1,187 @@
 @import "tailwindcss";
 
-:root {
-  --background: #09090b;
-  --foreground: #fafafa;
+@theme {
+  --color-zinc-950: #0f1115;
+  --font-display: 'Manrope', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --color-orange-500: #ff4d3d;
 }
 
-* {
-  box-sizing: border-box;
-}
+/* ── RESET ──────────────────────────────────────────── */
+* { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background-color: var(--color-zinc-950);
+  color: #f5f6f8;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #18181b;
-}
-::-webkit-scrollbar-thumb {
-  background: #3f3f46;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #f97316;
+/* ── SCROLLBAR ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333742; border-radius: 9999px; border: 2px solid #0f1115; }
+::-webkit-scrollbar-thumb:hover { background: #757b8a; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── GLOBAL UTILITY EXTENSIONS ──────────────────────── */
+@layer components {
+  .btn-primary {
+    @apply inline-flex justify-center items-center rounded-full bg-orange-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-orange-500/20 transition-all hover:-translate-y-0.5 hover:bg-orange-400 hover:shadow-orange-500/30 font-display tracking-wide;
+  }
+  
+  .btn-ghost {
+    @apply inline-flex justify-center items-center rounded-full border-2 border-zinc-700 bg-transparent px-6 py-3 text-sm font-bold text-white transition-all hover:bg-zinc-800 hover:border-zinc-500 font-display tracking-wide;
+  }
+
+  /* Utility for cards if missed in replacing inline classes */
+  .card {
+    @apply bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden transition-all hover:border-zinc-600 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/50;
+  }
 }
 
-/* Hide scrollbar for horizontal scroll containers */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Gradient text utility */
-.gradient-text {
-  background: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #fdba74 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Subtle card glow on hover */
-.card-glow:hover {
-  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.15), 0 8px 32px rgba(249, 115, 22, 0.08);
-}
-
-/* Orange glow button */
-.btn-glow {
-  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
-  transition: box-shadow 0.2s ease, transform 0.15s ease;
-}
-.btn-glow:hover {
-  box-shadow: 0 6px 28px rgba(249, 115, 22, 0.45);
-  transform: translateY(-1px);
-}
-.btn-glow:active {
-  transform: translateY(0);
-}
-
-/* Animated underline for nav links */
-.nav-link {
-  position: relative;
-}
-.nav-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 0;
-  height: 1.5px;
-  background: #f97316;
-  transition: width 0.2s ease;
-}
-.nav-link:hover::after {
-  width: 100%;
-}
-
-/* Section fade-in animation */
+/* ── BASE ANIMATIONS ────────────────────────────────── */
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.fade-up {
-  animation: fadeUp 0.45s ease forwards;
+.fade-up-1 { animation: fadeUp 0.6s 0.05s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.fade-up-2 { animation: fadeUp 0.6s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.fade-up-3 { animation: fadeUp 0.6s 0.25s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.fade-up-4 { animation: fadeUp 0.6s 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* ── CLERK OVERRIDES ────────────────────────────────── */
+.cl-rootBox { width: 100% !important; }
+
+.cl-card {
+  border-radius: 1.5rem !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5) !important;
+  border: 1px solid #333742 !important;
+  background: #1e2128 !important;
+  padding: 1.5rem !important;
 }
 
-/* Pulse dot for active state */
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+.cl-header { padding: 0 0 1.25rem !important; }
+
+.cl-headerTitle {
+  font-family: var(--font-display) !important;
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: #fff !important;
 }
-.pulse-dot {
-  animation: pulse-dot 1.5s ease-in-out infinite;
+
+.cl-headerSubtitle {
+  font-family: var(--font-body) !important;
+  font-size: 0.9rem !important;
+  color: #a1a6b4 !important;
+}
+
+.cl-socialButtonsBlockButton {
+  border-radius: 9999px !important;
+  border: 1px solid #333742 !important;
+  background: #2a2d36 !important;
+  font-family: var(--font-display) !important;
+  color: #fff !important;
+  transition: all 0.2s !important;
+}
+.cl-socialButtonsBlockButton:hover {
+  border-color: #ff4d3d !important;
+  background: #333742 !important;
+}
+
+.cl-socialButtonsBlockButtonText {
+  font-family: var(--font-display) !important;
+  font-weight: 600 !important;
+}
+
+.cl-dividerLine { background: #333742 !important; }
+.cl-dividerText {
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
+  color: #757b8a !important;
+}
+
+.cl-formFieldLabel {
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  color: #a1a6b4 !important;
+}
+
+.cl-formFieldInput {
+  border-radius: 1rem !important;
+  border: 1px solid #333742 !important;
+  background: #0f1115 !important;
+  color: #fff !important;
+  font-family: var(--font-body) !important;
+  padding: 0.75rem !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+.cl-formFieldInput:focus {
+  border-color: #ff4d3d !important;
+  box-shadow: 0 0 0 2px rgba(255, 77, 61, 0.2) !important;
+  outline: none !important;
+}
+
+.cl-formButtonPrimary {
+  border-radius: 9999px !important;
+  background: #ff4d3d !important;
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 12px rgba(255, 77, 61, 0.2) !important;
+  transition: opacity 0.2s, transform 0.2s !important;
+}
+.cl-formButtonPrimary:hover { opacity: 0.9 !important; transform: translateY(-1px) !important; }
+
+.cl-footerActionLink {
+  color: #ff4d3d !important;
+  font-family: var(--font-display) !important;
+  font-weight: 700 !important;
+}
+
+.cl-footerPages,
+.cl-footer { background: transparent !important; }
+
+.cl-identityPreviewText { font-family: var(--font-body) !important; color: #fff !important; }
+
+.cl-alert {
+  border-radius: 1rem !important;
+  border: 1px solid rgba(255,77,61,0.3) !important;
+  background: rgba(255,77,61,0.1) !important;
+}
+
+.cl-badge { border-radius: 9999px !important; }
+.cl-internal-b3fm6y { display: none !important; }
+
+/* ── STRICT CLERK POPOVER TEXT COLOR OVERRIDES ── */
+.cl-userButtonPopoverCard,
+.cl-userButtonPopoverCard * {
+  color: #fff !important;
+}
+
+.cl-userButtonPopoverCard [class*="cl-userPreviewSecondaryIdentifier"] {
+  color: #a1a6b4 !important;
+}
+
+.cl-userButtonPopoverCard [class*="cl-userButtonPopoverActionButtonIcon"] svg,
+.cl-userButtonPopoverCard [class*="cl-userButtonPopoverActionButtonIconBox"] svg,
+.cl-userButtonPopoverCard [class*="cl-avatarImageActionsUpload"] svg {
+  color: #a1a6b4 !important;
+  fill: currentColor !important;
+}
+
+.cl-userButtonPopoverCard [class*="cl-userButtonPopoverActionButton"]:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.cl-userButtonPopoverCard [class*="cl-userPreviewMainIdentifier"],
+.cl-userButtonPopoverCard [class*="cl-userButtonPopoverActionButtonText"] {
+  color: #ffffff !important;
+  font-family: var(--font-body) !important;
+  font-weight: 600 !important;
 }

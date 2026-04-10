@@ -1,104 +1,144 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { Flame, Menu, X } from 'lucide-react'
+import { useState } from 'react';
+import Link from 'next/link';
+import { Menu, X } from 'lucide-react';
+import { UserButton, useAuth } from '@clerk/nextjs';
 
 const navLinks = [
   { label: 'Exercises', href: '/exercises' },
   { label: 'Programs', href: '/programs' },
   { label: 'Today', href: '/today' },
-  { label: 'Workout Generator', href: '/workout' },
-]
+];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 10)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { isSignedIn } = useAuth();
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 bg-zinc-950/95 backdrop-blur-sm transition-all duration-200 ${
-        scrolled ? 'border-b border-zinc-800 shadow-lg' : ''
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className='fixed top-0 left-0 right-0 z-50 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-800/50 shadow-sm'>
+      <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+        <div className='flex items-center justify-between h-16'>
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group" onClick={() => setMenuOpen(false)}>
-            <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center group-hover:bg-orange-600 transition-colors">
-              <Flame className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-white">
-              Fit<span className="text-orange-500">Start</span>
+          <Link
+            href='/'
+            onClick={() => setMenuOpen(false)}
+            className='flex items-center gap-1 group'
+          >
+            <span className='font-display text-2xl font-bold tracking-tight text-white transition-opacity group-hover:opacity-80'>
+              FIT<span className='text-orange-500'>START</span>
             </span>
           </Link>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
+          {/* Desktop nav links */}
+          <div className='hidden md:flex items-center gap-8'>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-3 py-2 text-sm font-medium text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-all duration-150"
+                className='text-sm font-semibold text-zinc-400 hover:text-white transition-colors duration-200'
               >
                 {link.label}
               </Link>
             ))}
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            <Link
-              href="/workout"
-              className="px-4 py-2 text-sm font-semibold bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors shadow-lg shadow-orange-500/20"
-            >
-              Start Now
-            </Link>
+          {/* Desktop right side */}
+          <div className='hidden md:flex items-center gap-5'>
+            {!isSignedIn ? (
+              <>
+                <Link
+                  href='/sign-in'
+                  className='text-sm font-semibold text-zinc-400 hover:text-white transition-colors duration-200'
+                >
+                  Sign In
+                </Link>
+                <Link href='/sign-up' className='btn-primary'>
+                  Sign Up
+                </Link>
+              </>
+            ) : (
+              <div className='flex items-center gap-4'>
+                {/* <Link
+                  href='/workout'
+                  className='text-sm font-bold text-white bg-zinc-800/50 hover:bg-zinc-800 px-4 py-2 rounded-full border border-zinc-700/50 transition-all shadow-inner max-w-none'
+                >
+                  Start Now
+                </Link> */}
+                <UserButton userProfileUrl='/profile' />
+              </div>
+            )}
           </div>
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+            className='md:hidden p-2 text-zinc-300 hover:text-white transition-colors'
             onClick={() => setMenuOpen((prev) => !prev)}
-            aria-label="Toggle menu"
+            aria-label='Toggle menu'
           >
-            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {menuOpen ? (
+              <X className='w-6 h-6' />
+            ) : (
+              <Menu className='w-6 h-6' />
+            )}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu dropdown */}
+      {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden bg-zinc-950 border-t border-zinc-800">
-          <div className="px-4 pt-2 pb-4 flex flex-col gap-1">
+        <div className='md:hidden bg-zinc-950 border-t border-zinc-800/50 shadow-2xl'>
+          <div className='px-4 py-4 flex flex-col gap-2 max-w-7xl mx-auto'>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-3 py-3 text-sm font-medium text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+                className='px-4 py-3 text-sm font-semibold text-zinc-300 hover:text-white hover:bg-zinc-800/50 rounded-xl transition-colors'
                 onClick={() => setMenuOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
-            <div className="pt-2 border-t border-zinc-800 mt-1">
-              <Link
-                href="/workout"
-                className="block w-full text-center px-4 py-3 text-sm font-semibold bg-orange-500 hover:bg-orange-600 text-white rounded-lg transition-colors"
-                onClick={() => setMenuOpen(false)}
-              >
-                Start Now
-              </Link>
+
+            <div className='pt-4 mt-2 flex flex-col gap-3 border-t border-zinc-800/50'>
+              {!isSignedIn ? (
+                <>
+                  <Link
+                    href='/sign-in'
+                    className='btn-ghost w-full text-center'
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    href='/sign-up'
+                    className='btn-primary w-full text-center'
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href='/workout'
+                    className='btn-primary w-full text-center'
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Start Now
+                  </Link>
+                  <div className='flex items-center gap-3 px-4 py-3 bg-zinc-900/50 rounded-xl border border-zinc-800/50'>
+                    <UserButton />
+                    <span className='text-sm font-semibold text-zinc-300'>
+                      My Account
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
       )}
     </nav>
-  )
+  );
 }

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Directions</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;600;700;800&family=IBM+Plex+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;700&display=swap');
+
+  body {
+    background: #111;
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    padding: 2rem;
+  }
+
+  h1 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #aaa;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .page-subtitle {
+    color: #555;
+    font-size: 0.85rem;
+    margin-bottom: 2.5rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .directions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .direction {
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.15s, transform 0.15s;
+    position: relative;
+  }
+  .direction:hover { transform: translateY(-3px); }
+  .direction.selected { border-color: #b8ff4a !important; }
+  .direction.selected::after {
+    content: '✓ Selected';
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    background: #b8ff4a;
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    z-index: 10;
+  }
+
+  /* ── DIRECTION A: BRUTALIST EDITORIAL ─────── */
+  .dir-a {
+    background: #f0ece0;
+    border-color: #2a2a2a;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .dir-a .mock-nav {
+    background: #0a0a0a;
+    color: #f0ece0;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .dir-a .mock-nav .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    color: #e8190c;
+  }
+  .dir-a .mock-hero {
+    background: #f0ece0;
+    padding: 1.5rem 1rem;
+    border-bottom: 3px solid #0a0a0a;
+    position: relative;
+  }
+  .dir-a .mock-hero .label {
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #888;
+    font-family: 'IBM Plex Mono', monospace;
+    border-left: 2px solid #e8190c;
+    padding-left: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .dir-a .mock-hero h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: #0a0a0a;
+    line-height: 0.88;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+  .dir-a .mock-hero h2 span { color: #e8190c; }
+  .dir-a .mock-hero p {
+    font-size: 0.65rem;
+    color: #555;
+    margin-top: 0.6rem;
+    font-family: 'IBM Plex Mono', monospace;
+    max-width: 80%;
+    line-height: 1.5;
+  }
+  .dir-a .mock-btn {
+    display: inline-block;
+    margin-top: 0.7rem;
+    background: #e8190c;
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .dir-a .mock-stats {
+    display: flex;
+    border-top: 2px solid #0a0a0a;
+    border-bottom: 2px solid #0a0a0a;
+  }
+  .dir-a .mock-stat {
+    flex: 1;
+    padding: 0.5rem;
+    border-right: 1px solid #ccc;
+    text-align: center;
+  }
+  .dir-a .mock-stat:last-child { border-right: none; }
+  .dir-a .mock-stat .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    color: #0a0a0a;
+    line-height: 1;
+  }
+  .dir-a .mock-stat .lbl {
+    font-size: 0.5rem;
+    color: #888;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .dir-a .mock-cards {
+    padding: 0.8rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .dir-a .mock-card {
+    border: 1px solid #ccc;
+    padding: 0.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+  }
+  .dir-a .mock-card .card-title {
+    font-size: 0.65rem;
+    font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+    color: #0a0a0a;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .dir-a .mock-card .card-meta {
+    font-size: 0.55rem;
+    color: #888;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-top: 0.15rem;
+  }
+  .dir-a .mock-card .card-go {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    color: #e8190c;
+  }
+  .dir-a .dir-label {
+    background: #0a0a0a;
+    color: #f0ece0;
+    padding: 0.7rem 1rem;
+  }
+  .dir-a .dir-label h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+  .dir-a .dir-label p {
+    font-size: 0.6rem;
+    color: #888;
+    font-family: 'IBM Plex Mono', monospace;
+    line-height: 1.4;
+  }
+
+  /* ── DIRECTION B: NEON UNDERGROUND ────────── */
+  .dir-b {
+    background: #08080f;
+    border-color: #1a1a2e;
+    font-family: 'Outfit', sans-serif;
+  }
+  .dir-b .mock-nav {
+    background: rgba(8,8,15,0.95);
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #1a1a2e;
+  }
+  .dir-b .mock-nav .logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.03em;
+    color: #fff;
+    text-transform: uppercase;
+  }
+  .dir-b .mock-nav .logo span { color: #00f5d4; }
+  .dir-b .mock-nav .nav-btn {
+    background: #00f5d4;
+    color: #08080f;
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+  }
+  .dir-b .mock-hero {
+    position: relative;
+    padding: 1.2rem 1rem 1rem;
+    overflow: hidden;
+  }
+  .dir-b .mock-hero::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(0,245,212,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .dir-b .mock-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -20px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255,45,120,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .dir-b .mock-hero .eyebrow {
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #00f5d4;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    position: relative;
+  }
+  .dir-b .mock-hero h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: 2.4rem;
+    color: #ffffff;
+    line-height: 0.9;
+    text-transform: uppercase;
+    position: relative;
+  }
+  .dir-b .mock-hero h2 em {
+    font-style: normal;
+    color: #00f5d4;
+  }
+  .dir-b .mock-hero h2 .alt {
+    display: block;
+    font-size: 1.6rem;
+    color: #ff2d78;
+  }
+  .dir-b .mock-hero p {
+    font-size: 0.62rem;
+    color: #6060a0;
+    margin-top: 0.5rem;
+    position: relative;
+    line-height: 1.5;
+  }
+  .dir-b .btns {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.7rem;
+    position: relative;
+  }
+  .dir-b .btn-main {
+    background: #00f5d4;
+    color: #08080f;
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.7rem;
+  }
+  .dir-b .btn-ghost {
+    border: 1px solid #ff2d78;
+    color: #ff2d78;
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.7rem;
+  }
+  .dir-b .mock-stats {
+    display: flex;
+    border-top: 1px solid #1a1a2e;
+    margin-top: 0.5rem;
+  }
+  .dir-b .mock-stat {
+    flex: 1;
+    padding: 0.5rem;
+    text-align: center;
+    border-right: 1px solid #1a1a2e;
+  }
+  .dir-b .mock-stat:last-child { border-right: none; }
+  .dir-b .mock-stat .num {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.4rem;
+    color: #00f5d4;
+    line-height: 1;
+  }
+  .dir-b .mock-stat .lbl {
+    font-size: 0.48rem;
+    color: #404060;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.1rem;
+  }
+  .dir-b .mock-cards {
+    padding: 0.6rem 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .dir-b .mock-card {
+    background: #0f0f1e;
+    border: 1px solid #1a1a2e;
+    padding: 0.5rem 0.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.15s;
+  }
+  .dir-b .mock-card:hover { border-color: #00f5d4; }
+  .dir-b .mock-card .card-title {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #e0e0ff;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .dir-b .mock-card .card-meta {
+    font-size: 0.5rem;
+    color: #404060;
+    margin-top: 0.1rem;
+  }
+  .dir-b .mock-card .card-go {
+    font-size: 0.55rem;
+    color: #00f5d4;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .dir-b .dir-label {
+    background: #0f0f1e;
+    border-top: 1px solid #1a1a2e;
+    padding: 0.7rem 1rem;
+  }
+  .dir-b .dir-label h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.03em;
+  }
+  .dir-b .dir-label p {
+    font-size: 0.58rem;
+    color: #404060;
+    line-height: 1.4;
+  }
+
+  /* ── DIRECTION C: SPORT MAGAZINE ──────────── */
+  .dir-c {
+    background: #0c0c10;
+    border-color: #1c1c24;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .dir-c .mock-nav {
+    background: #0c0c10;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #f5ff47;
+  }
+  .dir-c .mock-nav .logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 1rem;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .dir-c .mock-nav .logo span { color: #f5ff47; }
+  .dir-c .mock-nav .nav-btn {
+    background: transparent;
+    border: 1.5px solid #f5ff47;
+    color: #f5ff47;
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.28rem 0.55rem;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .dir-c .mock-hero {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+  }
+  .dir-c .hero-img {
+    background: linear-gradient(135deg, #1a1a22 0%, #0c0c10 100%);
+    height: 110px;
+    position: relative;
+    overflow: hidden;
+  }
+  .dir-c .hero-img::before {
+    content: 'GYM';
+    position: absolute;
+    font-family: 'Anton', sans-serif;
+    font-size: 7rem;
+    color: rgba(255,255,255,0.03);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+  .dir-c .hero-img .corner-tag {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    background: #f5ff47;
+    color: #0c0c10;
+    font-size: 0.5rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .dir-c .hero-text {
+    padding: 0.8rem 1rem;
+    background: #0c0c10;
+    position: relative;
+  }
+  .dir-c .hero-text h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: 2.2rem;
+    color: #fff;
+    line-height: 0.88;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+  }
+  .dir-c .hero-text h2 em {
+    font-style: normal;
+    -webkit-text-stroke: 1.5px #f5ff47;
+    color: transparent;
+  }
+  .dir-c .hero-text p {
+    font-size: 0.6rem;
+    color: #6060a0;
+    margin-top: 0.4rem;
+    line-height: 1.5;
+  }
+  .dir-c .hero-btns {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+  }
+  .dir-c .btn-main {
+    background: #f5ff47;
+    color: #0c0c10;
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.7rem;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .dir-c .btn-ghost {
+    border: 1px solid #2a2a38;
+    color: #6060a0;
+    font-size: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.7rem;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .dir-c .mock-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: #131318;
+    border-top: 1px solid #1c1c24;
+    border-bottom: 1px solid #1c1c24;
+  }
+  .dir-c .mock-stat {
+    padding: 0.5rem;
+    text-align: center;
+    border-right: 1px solid #1c1c24;
+    position: relative;
+  }
+  .dir-c .mock-stat:last-child { border-right: none; }
+  .dir-c .mock-stat::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #f5ff47;
+  }
+  .dir-c .mock-stat .num {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.6rem;
+    color: #f5ff47;
+    line-height: 1;
+  }
+  .dir-c .mock-stat .lbl {
+    font-size: 0.46rem;
+    color: #4040a0;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.1rem;
+  }
+  .dir-c .mock-cards {
+    padding: 0.6rem 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .dir-c .mock-card {
+    padding: 0.55rem 0;
+    border-bottom: 1px solid #1c1c24;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .dir-c .mock-card .num-tag {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.1rem;
+    color: #f5ff47;
+    margin-right: 0.5rem;
+    opacity: 0.5;
+    line-height: 1;
+  }
+  .dir-c .mock-card .card-info { flex: 1; }
+  .dir-c .mock-card .card-title {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #e8e8ff;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .dir-c .mock-card .card-meta {
+    font-size: 0.5rem;
+    color: #404060;
+    margin-top: 0.1rem;
+  }
+  .dir-c .mock-card .card-go {
+    font-size: 0.55rem;
+    color: #f5ff47;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .dir-c .dir-label {
+    background: #131318;
+    border-top: 2px solid #f5ff47;
+    padding: 0.7rem 1rem;
+  }
+  .dir-c .dir-label h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 0.2rem;
+  }
+  .dir-c .dir-label p {
+    font-size: 0.58rem;
+    color: #404060;
+    line-height: 1.4;
+  }
+
+  /* Labels */
+  .option-tag {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 0.6rem;
+  }
+</style>
+<script>
+  function toggle(el) {
+    document.querySelectorAll('.direction').forEach(d => d.classList.remove('selected'));
+    el.classList.add('selected');
+    if (window.parent && window.parent.recordChoice) {
+      window.parent.recordChoice(el.dataset.choice);
+    }
+    try {
+      fetch('/event', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({type:'click', choice: el.dataset.choice, text: el.dataset.label})
+      });
+    } catch(e) {}
+  }
+</script>
+</head>
+<body>
+<h1>Design Direction</h1>
+<p class="page-subtitle">Three distinct aesthetics for FitStart — click to select your preference</p>
+
+<div class="directions">
+
+  <!-- DIRECTION A -->
+  <div class="direction dir-a" data-choice="a" data-label="Brutalist Editorial — cream/black/red" onclick="toggle(this)">
+    <div class="mock-nav">
+      <span class="logo">FIT<span style="color:#e8190c">START</span></span>
+      <span style="font-size:0.55rem;letter-spacing:0.08em;text-transform:uppercase;">Programs / Exercises / Today</span>
+    </div>
+    <div class="mock-hero">
+      <div class="label">// Training Platform v1.0</div>
+      <h2>NO<br/>EXCUSES.<br/><span>MOVE.</span></h2>
+      <p>Free structured workouts. No gym required. Pick a goal, get moving — results follow.</p>
+      <span class="mock-btn">→ Generate Workout</span>
+    </div>
+    <div class="mock-stats">
+      <div class="mock-stat"><div class="num">50+</div><div class="lbl">Exercises</div></div>
+      <div class="mock-stat"><div class="num">12</div><div class="lbl">Workouts</div></div>
+      <div class="mock-stat"><div class="num">3</div><div class="lbl">Programs</div></div>
+    </div>
+    <div class="mock-cards">
+      <div class="mock-card">
+        <div><div class="card-title">FULL BODY BLAST</div><div class="card-meta">30 min · No equipment · Beginner</div></div>
+        <div class="card-go">GO →</div>
+      </div>
+      <div class="mock-card">
+        <div><div class="card-title">MORNING CARDIO</div><div class="card-meta">20 min · Bodyweight · Beginner</div></div>
+        <div class="card-go">GO →</div>
+      </div>
+    </div>
+    <div class="dir-label">
+      <h3>A — Brutalist Editorial</h3>
+      <p>Cream paper + jet black + hard red. Looks like a military training manual or underground gym log. Raw, serious, no-nonsense.</p>
+    </div>
+  </div>
+
+  <!-- DIRECTION B -->
+  <div class="direction dir-b" data-choice="b" data-label="Neon Underground — dark navy/cyan/pink" onclick="toggle(this)">
+    <div class="mock-nav">
+      <span class="logo">FIT<span>START</span></span>
+      <span class="nav-btn">Start Now</span>
+    </div>
+    <div class="mock-hero">
+      <div class="eyebrow">◈ Free · No Signup</div>
+      <h2>GRIND<br/><em>HARDER.</em><span class="alt">NO LIMITS.</span></h2>
+      <p>Matched workouts in seconds. No gym. No excuses.</p>
+      <div class="btns">
+        <span class="btn-main">→ Generate</span>
+        <span class="btn-ghost">Surprise Me</span>
+      </div>
+    </div>
+    <div class="mock-stats">
+      <div class="mock-stat"><div class="num">50+</div><div class="lbl">Exercises</div></div>
+      <div class="mock-stat"><div class="num">12</div><div class="lbl">Workouts</div></div>
+      <div class="mock-stat"><div class="num">3</div><div class="lbl">Programs</div></div>
+    </div>
+    <div class="mock-cards">
+      <div class="mock-card">
+        <div><div class="card-title">Full Body Blast</div><div class="card-meta">30 min · No equipment · Beginner</div></div>
+        <div class="card-go">GO →</div>
+      </div>
+      <div class="mock-card">
+        <div><div class="card-title">Morning Cardio</div><div class="card-meta">20 min · Bodyweight · Beginner</div></div>
+        <div class="card-go">GO →</div>
+      </div>
+    </div>
+    <div class="dir-label">
+      <h3>B — Neon Underground</h3>
+      <p>Deep navy + electric cyan + hot pink. Energy drink meets midnight gym. Vibrant, dark, and intense — like a Tokyo fitness club.</p>
+    </div>
+  </div>
+
+  <!-- DIRECTION C -->
+  <div class="direction dir-c" data-choice="c" data-label="Sport Magazine — black/acid yellow, outlined type" onclick="toggle(this)">
+    <div class="mock-nav">
+      <span class="logo">FIT<span>START</span></span>
+      <span class="nav-btn">Start Now</span>
+    </div>
+    <div class="mock-hero">
+      <div class="hero-img">
+        <span class="corner-tag">Free · No Signup</span>
+      </div>
+      <div class="hero-text">
+        <h2>NO<br/>EXCUSES.<br/><em>START.</em></h2>
+        <p>From couch to training — in 60 seconds flat. No gym needed.</p>
+        <div class="hero-btns">
+          <span class="btn-main">→ Generate</span>
+          <span class="btn-ghost">Surprise Me</span>
+        </div>
+      </div>
+    </div>
+    <div class="mock-stats">
+      <div class="mock-stat"><div class="num">50+</div><div class="lbl">Exercises</div></div>
+      <div class="mock-stat"><div class="num">12</div><div class="lbl">Workouts</div></div>
+      <div class="mock-stat"><div class="num">3</div><div class="lbl">Programs</div></div>
+    </div>
+    <div class="mock-cards">
+      <div class="mock-card">
+        <span class="num-tag">01</span>
+        <div class="card-info"><div class="card-title">Full Body Blast</div><div class="card-meta">30 min · Bodyweight · Beginner</div></div>
+        <div class="card-go">→</div>
+      </div>
+      <div class="mock-card">
+        <span class="num-tag">02</span>
+        <div class="card-info"><div class="card-title">Morning Cardio</div><div class="card-meta">20 min · No equipment · Beginner</div></div>
+        <div class="card-go">→</div>
+      </div>
+    </div>
+    <div class="dir-label">
+      <h3>C — Sport Magazine</h3>
+      <p>Jet black + acid yellow + outlined typography. Like a high-end sports magazine. Numbers as design elements, editorial-first layout.</p>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
