@@ -128,7 +128,83 @@ export default function Navbar() {
                     Start Now
                   </Link>
                   <div className='flex items-center gap-3 px-4 py-3 bg-zinc-900/50 rounded-xl border border-zinc-800/50'>
-                    <UserButton />
+                    <UserButton
+                      appearance={{
+                        variables: {
+                          colorPrimary: '#e8190c',
+                          colorBackground: '#141414',
+                          colorInputBackground: '#242424',
+                          colorInputText: '#f5f5f5',
+                          colorText: '#f5f5f5',
+                          colorTextSecondary: '#a1a1a1',
+                          colorNeutral: '#ffffff',
+                          colorAlphaShade: '#ffffff',
+                          colorTextOnPrimaryBackground: '#ffffff',
+                          borderRadius: '6px',
+                          fontFamily: 'Outfit, sans-serif',
+                          fontSize: '16px',
+                        },
+                        elements: {
+                          rootBox: {
+                            width: '100%',
+                          },
+                          card: {
+                            backgroundColor: '#141414',
+                            boxShadow: 'none',
+                            border: '1px solid #2a2a2a',
+                          },
+                          headerTitle: {
+                            color: '#ffffff',
+                          },
+                          headerSubtitle: {
+                            color: '#a1a1a1',
+                          },
+                          socialButtonsIconButton: {
+                            backgroundColor: '#fff',
+                            border: '1px solid #333333',
+                          },
+                          socialButtonsIconButton__apple: {
+                            backgroundColor: '#ffffff',
+                            border: '1px solid #333333',
+                          },
+                          socialButtonsBlockButton: {
+                            backgroundColor: '#1f1f1f',
+                            border: '1px solid #333333',
+                            color: '#f5f5f5',
+                          },
+                          dividerLine: {
+                            backgroundColor: '#2a2a2a',
+                          },
+                          dividerText: {
+                            color: '#666666',
+                          },
+                          formFieldLabel: {
+                            color: '#a1a1a1',
+                          },
+                          formFieldInput: {
+                            backgroundColor: '#242424',
+                            border: '1px solid #333333',
+                            color: '#f5f5f5',
+                            boxShadow: 'none',
+                          },
+                          formButtonPrimary: {
+                            backgroundColor: '#e8190c',
+                            color: '#ffffff',
+                            boxShadow: 'none',
+                          },
+                          footerActionText: {
+                            color: '#a1a1a1',
+                          },
+                          footerActionLink: {
+                            color: '#e8190c',
+                          },
+                          footer: {
+                            backgroundColor: '#141414',
+                            borderTop: '1px solid #2a2a2a',
+                          },
+                        },
+                      }}
+                    />
                     <span className='text-sm font-semibold text-zinc-300'>
                       My Account
                     </span>
