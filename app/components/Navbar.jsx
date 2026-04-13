@@ -8,8 +8,9 @@ import { UserButton, useAuth } from '@clerk/nextjs';
 const navLinks = [
   { label: 'Exercises', href: '/exercises' },
   { label: 'Programs', href: '/programs' },
-  { label: 'Today', href: '/today' },
+  { label: 'Challenges', href: '/challenges' },
   { label: 'Calories', href: '/calorie-tracker' },
+  { label: 'Progress', href: '/progress' },
 ];
 
 export default function Navbar() {

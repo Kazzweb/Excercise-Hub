@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { ChevronDown, ChevronUp, Play } from 'lucide-react'
 import WorkoutTimer from '../../components/WorkoutTimer'
 import YouTubeEmbed from '../../components/YouTubeEmbed'
+import { logWorkout } from '../../actions/workout-log'
 
 function ExerciseRow({ index, exerciseEntry, exercise }) {
   const [expanded, setExpanded] = useState(false)
@@ -79,12 +80,33 @@ function ExerciseRow({ index, exerciseEntry, exercise }) {
 
 export default function WorkoutDetailClient({ workout, exercises, relatedWorkouts }) {
   const [timerOpen, setTimerOpen] = useState(false)
+  const startTimeRef = useRef(null)
+
+  function handleStartWorkout() {
+    startTimeRef.current = Date.now()
+    setTimerOpen(true)
+  }
+
+  async function handleTimerComplete(completed) {
+    setTimerOpen(false)
+    if (completed) {
+      const durationMinutes = startTimeRef.current
+        ? Math.round((Date.now() - startTimeRef.current) / 60000)
+        : 0
+      try {
+        await logWorkout({ workout_id: workout.id, workout_title: workout.title, duration_minutes: durationMinutes })
+      } catch (e) {
+        console.error('Failed to log workout:', e)
+      }
+    }
+    startTimeRef.current = null
+  }
 
   return (
     <>
       {/* Start button */}
       <button
-        onClick={() => setTimerOpen(true)}
+        onClick={handleStartWorkout}
         className="inline-flex items-center gap-2 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg rounded-xl transition-colors shadow-xl shadow-orange-500/20"
       >
         <Play className="w-5 h-5" fill="white" />
@@ -113,7 +135,7 @@ export default function WorkoutDetailClient({ workout, exercises, relatedWorkout
       {timerOpen && (
         <WorkoutTimer
           exercises={workout.exercises}
-          onComplete={() => setTimerOpen(false)}
+          onComplete={handleTimerComplete}
         />
       )}
     </>

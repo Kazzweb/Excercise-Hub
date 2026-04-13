@@ -82,10 +82,10 @@ export default function WorkoutTimer({ exercises, onComplete }) {
         setElapsed(0)
       } else {
         setDone(true)
-        if (onComplete) onComplete()
+        // Don't call onComplete here — let user click "Done" button
       }
     }
-  }, [currentExIdx, currentSet, exercises, onComplete])
+  }, [currentExIdx, currentSet, exercises])
 
   const handleCompleteSet = () => startRest()
 
@@ -139,7 +139,7 @@ export default function WorkoutTimer({ exercises, onComplete }) {
             <span>complete</span>
           </div>
           <button
-            onClick={onComplete}
+            onClick={() => onComplete(false)}
             className="p-1.5 text-zinc-500 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
             aria-label="Close workout"
           >
@@ -153,7 +153,7 @@ export default function WorkoutTimer({ exercises, onComplete }) {
             <h2 className="text-2xl font-bold text-white mb-2">Workout Complete!</h2>
             <p className="text-zinc-400 mb-6">Amazing work. You crushed it!</p>
             <button
-              onClick={onComplete}
+              onClick={() => onComplete(true)}
               className="px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl transition-colors"
             >
               Done

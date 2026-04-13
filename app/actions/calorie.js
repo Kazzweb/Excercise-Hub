@@ -44,3 +44,20 @@ export async function deleteMeal(id) {
 
   if (error) throw new Error(error.message)
 }
+
+// Returns all unique dates (YYYY-MM-DD) where the user logged at least one meal
+export async function getActivityDates() {
+  const { userId } = await auth()
+  if (!userId) throw new Error('Not authenticated')
+
+  const { data, error } = await supabase
+    .from('calorie_logs')
+    .select('date')
+    .eq('user_id', userId)
+
+  if (error) throw new Error(error.message)
+
+  // Deduplicate dates
+  const unique = [...new Set((data ?? []).map(r => r.date))]
+  return unique
+}
