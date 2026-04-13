@@ -9,6 +9,7 @@ const navLinks = [
   { label: 'Exercises', href: '/exercises' },
   { label: 'Programs', href: '/programs' },
   { label: 'Today', href: '/today' },
+  { label: 'Calories', href: '/calorie-tracker' },
 ];
 
 export default function Navbar() {
