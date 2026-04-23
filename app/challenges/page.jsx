@@ -116,12 +116,11 @@ export default function ChallengesPage() {
         <div className="flex gap-2 flex-wrap mb-6 fade-up-2">
           {GOAL_FILTERS.map(f => (
             <button key={f.id} onClick={() => setFilter(f.id)}
-              className="px-4 py-2 rounded-full text-xs font-bold transition-all"
-              style={{
-                background: filter === f.id ? '#ff4d3d' : 'rgba(255,255,255,0.05)',
-                color: filter === f.id ? '#fff' : '#a1a1aa',
-                border: filter === f.id ? 'none' : '1px solid rgba(255,255,255,0.08)',
-              }}>
+              className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                filter === f.id
+                  ? 'bg-orange-500 text-white border-0'
+                  : 'bg-white/5 text-zinc-400 border border-white/8'
+              }`}>
               {f.label}
             </button>
           ))}

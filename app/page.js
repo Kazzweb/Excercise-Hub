@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -150,139 +151,82 @@ function WorkoutFilterSection() {
 }
 
 export default function HomePage() {
+  const router = useRouter();
   const featuredWorkout = workouts[0];
 
+  function handleSurprise() {
+    const r = workouts[Math.floor(Math.random() * workouts.length)];
+    router.push(`/workout/${r.id}`);
+  }
+
   return (
-    <div className='bg-zinc-950 min-h-screen text-zinc-100 font-sans'>
+    <div className='bg-black min-h-screen text-zinc-100 font-sans m-0'>
       {/* ── HERO ───────────────────────── */}
-      <section className='relative pt-8 pb-16 overflow-hidden'>
-        {/* Background glow for premium feel */}
-        <div className='absolute top-1/4 -right-1/4 w-[800px] h-[800px] bg-orange-500/10 rounded-full blur-[120px] pointer-events-none' />
+      <section className='relative h-screen bg-black overflow-hidden'>
+        <div className='absolute top-16 left-0 right-0 bottom-[68px] flex flex-col justify-center px-4 sm:px-10 lg:px-20 select-none'>
+          <div className='flex items-end justify-between'>
+            <span className='font-black uppercase tracking-tighter leading-[0.88] text-[clamp(3rem,13vw,11rem)] text-[#ede8df]'>
+              BUILD
+            </span>
+            <span
+              className='font-black uppercase tracking-tighter leading-[0.88] text-[clamp(3rem,13vw,11rem)] text-transparent'
+              style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.18)' }}
+            >
+              YOUR
+            </span>
+          </div>
+          <div className='pl-[clamp(0.5rem,8vw,9rem)]'>
+            <span className='block font-black uppercase tracking-tighter leading-[0.88] text-[clamp(2.6rem,12vw,10rem)] text-red-500'>
+              BEST SELF
+            </span>
+          </div>
+        </div>
 
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10'>
-          <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center min-h-[70vh]'>
-            {/* Left: Text Content */}
-            <div className='flex flex-col justify-center order-2 lg:order-1 pt-12 lg:pt-0'>
-              {/* <div className="fade-up-1 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-900/80 border border-zinc-800 text-orange-500 text-xs font-bold uppercase tracking-widest mb-8 w-fit shadow-sm backdrop-blur-md">
-                <Flame className="w-3.5 h-3.5" /> Free &bull; No Signup Required
-              </div> */}
-
-              <h1 className='fade-up-2 font-display text-6xl sm:text-7xl lg:text-8xl font-black leading-[1.05] tracking-tight text-white mb-6'>
-                NO{' '}
-                <span className='text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500'>
-                  EXCUSES.
-                </span>
-                <br />
-                START NOW.
-              </h1>
-
-              <p className='fade-up-3 text-lg text-zinc-400 leading-relaxed max-w-lg mb-10 font-medium'>
-                Free workouts matched in seconds. No gym, no equipment, no
-                barriers. Pick your goal and transform your life today.
-              </p>
-
-              <div className='flex flex-wrap items-center gap-4 fade-up-3 mb-10'>
-                <Link href='/workout' className='btn-primary'>
+        <div className='absolute bottom-0 left-0 right-0 border-t border-white/10 bg-black/60'>
+          <div className='flex items-center justify-between gap-6 px-4 sm:px-10 lg:px-20 py-3'>
+            <p className='hidden sm:block text-zinc-500 text-[11px] leading-relaxed shrink-0 max-w-[180px]'>
+              Free workouts matched to your goals.
+              <br />
+              No gym. No excuses.
+            </p>
+            <div className='flex items-center gap-4'>
+              <div className='flex items-center gap-3'>
+                <Link
+                  href='/workout'
+                  className='px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white/60 text-[11px] font-black uppercase tracking-widest rounded transition-colors whitespace-nowrap'
+                >
                   Generate Workout
                 </Link>
-                <RandomWorkoutButton workouts={workouts} />
+                <button
+                  onClick={handleSurprise}
+                  className='px-5 py-2.5 border border-white/25 bg-transparent text-white text-[11px] font-black uppercase tracking-widest rounded cursor-pointer whitespace-nowrap hover:border-white/50 transition-colors'
+                >
+                  ⚡ Surprise Me
+                </button>
               </div>
-
-              {/* Quick links */}
-              <div className='flex items-center gap-4 flex-wrap fade-up-4'>
-                <span className='text-xs uppercase tracking-widest text-zinc-600 font-bold mr-2'>
-                  Quick Pick:
-                </span>
-                {goalQuickLinks.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={`/workout?goal=${item.value}`}
-                    className='text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-orange-500 transition-colors'
-                  >
-                    {item.label} &rarr;
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Right: Image Hero */}
-            <div className='relative order-1 lg:order-2 h-full min-h-[400px] lg:min-h-full w-full rounded-[2.5rem] overflow-hidden shadow-2xl shadow-orange-500/10 border border-zinc-800/50'>
-              <Image
-                src='https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=1200&q=80'
-                alt='Athlete training'
-                fill
-                className='object-cover object-center'
-                priority
-                sizes='(max-width: 1024px) 100vw, 50vw'
-              />
-              <div className='absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent' />
-              <div className='absolute bottom-8 left-8 right-8'>
-                <div className='bg-zinc-900/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-lg'>
-                  <div className='flex items-center gap-4'>
-                    <div className='w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white shrink-0 shadow-lg shadow-orange-500/30'>
-                      <Target className='w-6 h-6' />
+              <div className='flex items-center gap-8 shrink-0'>
+                {[
+                  { num: '50+', label: 'Exercises' },
+                  { num: '12', label: 'Programs' },
+                  { num: 'Free', label: 'Forever' },
+                ].map((s) => (
+                  <div key={s.label} className='text-center'>
+                    <div className='font-black text-red-500 text-lg leading-none'>
+                      {s.num}
                     </div>
-                    <div>
-                      <h4 className='text-white font-bold tracking-tight'>
-                        Personalized For You
-                      </h4>
-                      <p className='text-zinc-300 text-sm'>
-                        Over 50+ exercises combined for maximum results.
-                      </p>
+                    <div className='text-zinc-500 text-[9px] uppercase tracking-widest font-bold mt-0.5'>
+                      {s.label}
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── STATS FOOTER ────────────────────────────── */}
-      <div className='border-y border-zinc-800/50 bg-zinc-950/80 backdrop-blur-md'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-zinc-800/50'>
-            {[
-              {
-                num: '50',
-                suffix: '+',
-                highlight: true,
-                label: 'Exercises in Library',
-              },
-              { num: '12', suffix: '', label: 'Curated Workouts' },
-              { num: '3', suffix: '', label: 'Full Programs' },
-            ].map((stat) => (
-              <div
-                key={stat.label}
-                className='py-8 text-center flex flex-col justify-center'
-              >
-                <div className='font-display text-4xl sm:text-5xl font-black mb-2 tracking-tight'>
-                  <span
-                    className={
-                      stat.highlight ? 'text-orange-500' : 'text-white'
-                    }
-                  >
-                    {stat.num}
-                  </span>
-                  <span
-                    className={
-                      stat.highlight ? 'text-orange-500' : 'text-zinc-500'
-                    }
-                  >
-                    {stat.suffix}
-                  </span>
-                </div>
-                <div className='text-xs text-zinc-400 tracking-widest uppercase font-bold'>
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* ── EDITORIAL COLUMNS ────────────────────────────── */}
-      <section className='py-20 bg-zinc-950 relative'>
+      <section className='py-20 bg-black relative'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='flex items-baseline justify-between mb-12'>
             <h2 className='font-display text-3xl font-bold text-white tracking-tight'>

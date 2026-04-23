@@ -1,27 +1,28 @@
-import { Manrope, Inter } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
-import "./globals.css";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import { Manrope, Inter } from 'next/font/google';
+import { ClerkProvider } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
+import './globals.css';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 const manrope = Manrope({
-  weight: ["400", "500", "600", "700", "800"],
-  variable: "--font-display",
-  subsets: ["latin"],
-  display: "swap",
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-display',
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 const inter = Inter({
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-body",
-  subsets: ["latin"],
-  display: "swap",
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-body',
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata = {
-  title: "FitStart — Start Your Workout Now",
-  description: "Free workouts, exercise guides, and beginner programs. No gym required. Start moving today.",
+  title: 'FitStart — Start Your Workout Now',
+  description:
+    'Free workouts, exercise guides, and beginner programs. No gym required. Start moving today.',
 };
 
 export default function RootLayout({ children }) {
@@ -47,18 +48,16 @@ export default function RootLayout({ children }) {
             backgroundColor: '#0f1115',
             border: '1px solid #333742',
           },
-        }
+        },
       }}
     >
       <html
-        lang="en"
+        lang='en'
         className={`${manrope.variable} ${inter.variable} h-full antialiased`}
       >
-        <body className="min-h-screen flex flex-col font-sans bg-zinc-950 text-zinc-100">
+        <body className='min-h-screen flex flex-col font-sans bg-black text-zinc-100'>
           <Navbar />
-          <main className="flex-1 pt-20">
-            {children}
-          </main>
+          <main className='flex-1 '>{children}</main>
           <Footer />
         </body>
       </html>

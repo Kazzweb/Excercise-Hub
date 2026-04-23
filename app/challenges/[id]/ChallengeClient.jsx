@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { Check, Lock, Play, ChevronDown, ChevronUp, X } from 'lucide-react'
 import { enrollInChallenge, completeChallengeDay, uncompleteChallengeDay, getChallengeProgress } from '../../actions/challenges'
 import { exercises as exerciseData } from '../../data/exercises'
+import WorkoutTimer from '../../components/WorkoutTimer'
 
 const TYPE_COLORS = {
   'full-body':       '#ff4d3d',
@@ -147,8 +148,7 @@ export default function ChallengeClient({ challenge }) {
         {!enrollment && (
           <div className="mb-6 fade-up-2">
             <button onClick={handleEnroll} disabled={enrolling}
-              className="btn-primary px-8 py-4 text-base"
-              style={{ opacity: enrolling ? 0.6 : 1 }}>
+              className="btn-primary px-8 py-4 text-base disabled:opacity-60">
               {enrolling ? 'Starting…' : `Start ${challenge.title} →`}
             </button>
             <p className="text-xs text-zinc-500 mt-2 font-mono">Enroll to track your progress and mark days complete.</p>
@@ -216,8 +216,7 @@ export default function ChallengeClient({ challenge }) {
                         </div>
 
                         {/* Type label */}
-                        <span className="text-center leading-tight mt-1 text-zinc-600 group-hover:text-zinc-400 transition-colors"
-                          style={{ fontSize: '0.55rem', fontFamily: 'monospace' }}>
+                        <span className="text-[0.55rem] font-mono text-center leading-tight mt-1 text-zinc-600 group-hover:text-zinc-400 transition-colors">
                           {TYPE_LABELS[day.type] ?? day.type}
                         </span>
                       </button>
@@ -257,8 +256,7 @@ export default function ChallengeClient({ challenge }) {
                           <span className="text-sm font-bold" style={{ color }}>{day.day}</span>
                         )}
                       </div>
-                      <span className="text-center leading-tight mt-1 text-zinc-600"
-                        style={{ fontSize: '0.55rem', fontFamily: 'monospace' }}>
+                      <span className="text-[0.55rem] font-mono text-center leading-tight mt-1 text-zinc-600">
                         {TYPE_LABELS[day.type]}
                       </span>
                     </button>
@@ -297,6 +295,19 @@ export default function ChallengeClient({ challenge }) {
 
 function DayModal({ day, isCompleted, enrolled, color, onClose, onToggle }) {
   const [showAll, setShowAll] = useState(false)
+  const [timerOpen, setTimerOpen] = useState(false)
+
+  function handleTimerComplete(completed) {
+    setTimerOpen(false)
+    if (completed && !isCompleted) {
+      onToggle()
+      onClose()
+    }
+  }
+
+  if (timerOpen) {
+    return <WorkoutTimer exercises={day.exercises} onComplete={handleTimerComplete} />
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
@@ -378,14 +389,21 @@ function DayModal({ day, isCompleted, enrolled, color, onClose, onToggle }) {
 
         {/* Footer */}
         {enrolled && (
-          <div className="p-4 border-t border-zinc-800 shrink-0">
+          <div className="p-4 border-t border-zinc-800 shrink-0 flex flex-col gap-2">
+            {!isCompleted && day.exercises.length > 0 && (
+              <button onClick={() => setTimerOpen(true)}
+                className="w-full py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 text-white"
+                style={{ background: color }}>
+                <Play className="w-4 h-4 fill-white" />
+                Start Workout
+              </button>
+            )}
             <button onClick={() => { onToggle(); onClose() }}
-              className="w-full py-3 rounded-xl font-bold text-sm transition-all"
-              style={{
-                background: isCompleted ? 'rgba(239,68,68,0.1)' : color,
-                color: isCompleted ? '#f87171' : '#fff',
-                border: isCompleted ? '1px solid rgba(239,68,68,0.3)' : 'none',
-              }}>
+              className={`w-full py-3 rounded-xl font-bold text-sm transition-all border ${
+                isCompleted
+                  ? 'bg-red-500/10 text-red-400 border-red-500/30'
+                  : 'bg-white/6 text-zinc-400 border-white/8'
+              }`}>
               {isCompleted ? '✗ Mark as Incomplete' : '✓ Mark as Complete'}
             </button>
           </div>

@@ -150,8 +150,7 @@ export default function TodayPage() {
         {/* Result card */}
         {result && !animating && (
           <div
-            className="mt-6 bg-zinc-900 border border-orange-500/30 rounded-2xl overflow-hidden shadow-xl shadow-orange-500/5"
-            style={{ animation: 'slideUp 0.4s ease-out' }}
+            className="slide-up mt-6 bg-zinc-900 border border-orange-500/30 rounded-2xl overflow-hidden shadow-xl shadow-orange-500/5"
           >
             <div className="bg-orange-500/10 border-b border-orange-500/20 px-5 py-3 flex items-center gap-2">
               <span className="text-orange-400 text-sm font-semibold">
