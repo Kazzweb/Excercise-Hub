@@ -1366,14 +1366,621 @@ const coreFlexWeeks = [
 ]
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Build final challenges array
+// CHALLENGE 6 — Home Muscle Builder 30
+// Goal: muscle | No equipment | Intermediate
+// Split: Full Body → Legs → Upper Push → Core → HIIT → Rest → Active Recovery
 // ─────────────────────────────────────────────────────────────────────────────
+const homeMuscleWeeks = [
+  // WEEK 1 — Foundation (3 sets, learn tempo and form)
+  [
+    {
+      type: 'full-body', title: 'Home Full Body Ignition',
+      description: 'Activate every muscle group with compound bodyweight moves. Focus on full range of motion.',
+      duration: 30, rest: false,
+      exercises: [
+        { exerciseId: 'squat',            sets: 3, reps: '12',     rest: 60 },
+        { exerciseId: 'push-up',          sets: 3, reps: '10',     rest: 60 },
+        { exerciseId: 'lunge',            sets: 3, reps: '10',     rest: 60 },
+        { exerciseId: 'mountain-climber', sets: 3, reps: '20',     rest: 45 },
+        { exerciseId: 'plank',            sets: 3, reps: '30 sec', rest: 30 },
+      ],
+    },
+    {
+      type: 'lower', title: 'Leg Day at Home',
+      description: 'Quads, glutes, hamstrings — all targeted without a single machine.',
+      duration: 30, rest: false,
+      exercises: [
+        { exerciseId: 'squat',       sets: 3, reps: '15',     rest: 60 },
+        { exerciseId: 'lunge',       sets: 3, reps: '12',     rest: 60 },
+        { exerciseId: 'glute-bridge',sets: 3, reps: '15',     rest: 45 },
+        { exerciseId: 'wall-sit',    sets: 3, reps: '30 sec', rest: 30 },
+        { exerciseId: 'calf-raise',  sets: 3, reps: '20',     rest: 30 },
+      ],
+    },
+    {
+      type: 'upper', title: 'Push & Sculpt',
+      description: 'Chest, shoulders and triceps — bodyweight pressing progressions.',
+      duration: 30, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',      sets: 3, reps: '12',     rest: 60 },
+        { exerciseId: 'pike-push-up', sets: 3, reps: '8',      rest: 60 },
+        { exerciseId: 'tricep-dip',   sets: 3, reps: '10',     rest: 60 },
+        { exerciseId: 'inchworm',     sets: 3, reps: '8',      rest: 45 },
+        { exerciseId: 'plank',        sets: 3, reps: '30 sec', rest: 30 },
+      ],
+    },
+    {
+      type: 'core', title: 'Core Foundation',
+      description: 'Build the iron core that powers every other movement.',
+      duration: 20, rest: false,
+      exercises: [
+        { exerciseId: 'plank',          sets: 3, reps: '45 sec', rest: 30 },
+        { exerciseId: 'russian-twist',  sets: 3, reps: '20',     rest: 30 },
+        { exerciseId: 'leg-raise',      sets: 3, reps: '12',     rest: 30 },
+        { exerciseId: 'bicycle-crunch', sets: 3, reps: '20',     rest: 30 },
+        { exerciseId: 'superman',       sets: 3, reps: '12',     rest: 30 },
+      ],
+    },
+    {
+      type: 'hiit', title: 'Home HIIT Ignite',
+      description: '20 sec on, 10 sec off — Tabata style. No equipment, full intensity.',
+      duration: 20, rest: false,
+      exercises: [
+        { exerciseId: 'jumping-jack',  sets: 4, reps: '20 sec', rest: 10 },
+        { exerciseId: 'burpee',        sets: 4, reps: '20 sec', rest: 10 },
+        { exerciseId: 'high-knees',    sets: 4, reps: '20 sec', rest: 10 },
+        { exerciseId: 'jump-squat',    sets: 4, reps: '20 sec', rest: 10 },
+      ],
+    },
+    { type: 'rest', title: 'Rest Day', description: 'Full rest. Eat well, sleep 8 hours, stay hydrated.', duration: 0, rest: true, exercises: [] },
+    {
+      type: 'active-recovery', title: 'Active Recovery',
+      description: 'Light movement to flush soreness and keep your streak alive.',
+      duration: 15, rest: false,
+      exercises: [
+        { exerciseId: 'inchworm',   sets: 2, reps: '8',      rest: 30 },
+        { exerciseId: 'side-plank', sets: 2, reps: '20 sec', rest: 20 },
+        { exerciseId: 'bear-crawl', sets: 2, reps: '10',     rest: 30 },
+      ],
+    },
+  ],
+  // WEEK 2 — Build (4 sets, more volume)
+  [
+    {
+      type: 'full-body', title: 'Home Full Body Power',
+      description: 'Same movements, 4 sets. Push past last week.',
+      duration: 35, rest: false,
+      exercises: [
+        { exerciseId: 'squat',            sets: 4, reps: '14',     rest: 60 },
+        { exerciseId: 'push-up',          sets: 4, reps: '12',     rest: 60 },
+        { exerciseId: 'lunge',            sets: 4, reps: '12',     rest: 60 },
+        { exerciseId: 'mountain-climber', sets: 4, reps: '25',     rest: 45 },
+        { exerciseId: 'plank',            sets: 4, reps: '35 sec', rest: 30 },
+      ],
+    },
+    {
+      type: 'lower', title: 'Leg Day Volume',
+      description: 'More sets, more reps. Your legs will earn their gains.',
+      duration: 35, rest: false,
+      exercises: [
+        { exerciseId: 'squat',       sets: 4, reps: '18',     rest: 60 },
+        { exerciseId: 'lunge',       sets: 4, reps: '14',     rest: 60 },
+        { exerciseId: 'glute-bridge',sets: 4, reps: '18',     rest: 45 },
+        { exerciseId: 'wall-sit',    sets: 4, reps: '40 sec', rest: 30 },
+        { exerciseId: 'calf-raise',  sets: 4, reps: '25',     rest: 30 },
+      ],
+    },
+    {
+      type: 'upper', title: 'Push Strength',
+      description: 'Progressive push volume. Slow the tempo for more muscle tension.',
+      duration: 35, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',      sets: 4, reps: '14',     rest: 60 },
+        { exerciseId: 'pike-push-up', sets: 4, reps: '10',     rest: 60 },
+        { exerciseId: 'tricep-dip',   sets: 4, reps: '12',     rest: 60 },
+        { exerciseId: 'inchworm',     sets: 4, reps: '10',     rest: 45 },
+        { exerciseId: 'side-plank',   sets: 4, reps: '25 sec', rest: 25 },
+      ],
+    },
+    {
+      type: 'core', title: 'Core Builder',
+      description: 'Heavier core volume. Brace harder, breathe steadily.',
+      duration: 25, rest: false,
+      exercises: [
+        { exerciseId: 'plank',          sets: 4, reps: '45 sec', rest: 30 },
+        { exerciseId: 'russian-twist',  sets: 4, reps: '24',     rest: 30 },
+        { exerciseId: 'leg-raise',      sets: 4, reps: '15',     rest: 30 },
+        { exerciseId: 'bicycle-crunch', sets: 4, reps: '25',     rest: 30 },
+        { exerciseId: 'superman',       sets: 4, reps: '15',     rest: 30 },
+      ],
+    },
+    {
+      type: 'hiit', title: 'Home HIIT Surge',
+      description: 'Extra round this week. Do not pace yourself — go all out.',
+      duration: 25, rest: false,
+      exercises: [
+        { exerciseId: 'jumping-jack',  sets: 5, reps: '20 sec', rest: 10 },
+        { exerciseId: 'burpee',        sets: 5, reps: '20 sec', rest: 10 },
+        { exerciseId: 'high-knees',    sets: 5, reps: '20 sec', rest: 10 },
+        { exerciseId: 'jump-squat',    sets: 5, reps: '20 sec', rest: 10 },
+      ],
+    },
+    { type: 'rest', title: 'Rest Day', description: 'Full rest. Recovery is where the muscle is built.', duration: 0, rest: true, exercises: [] },
+    {
+      type: 'active-recovery', title: 'Active Recovery',
+      description: 'Move light, breathe deep, prepare for week 3.',
+      duration: 15, rest: false,
+      exercises: [
+        { exerciseId: 'inchworm',   sets: 2, reps: '10',     rest: 30 },
+        { exerciseId: 'side-plank', sets: 2, reps: '25 sec', rest: 25 },
+        { exerciseId: 'bear-crawl', sets: 2, reps: '12',     rest: 30 },
+      ],
+    },
+  ],
+  // WEEK 3 — Push (4–5 sets, heavier reps)
+  [
+    {
+      type: 'full-body', title: 'Home Full Body Push',
+      description: 'You have built the base — now push your limits.',
+      duration: 40, rest: false,
+      exercises: [
+        { exerciseId: 'squat',            sets: 5, reps: '15',     rest: 60 },
+        { exerciseId: 'push-up',          sets: 5, reps: '15',     rest: 60 },
+        { exerciseId: 'lunge',            sets: 4, reps: '14',     rest: 60 },
+        { exerciseId: 'mountain-climber', sets: 4, reps: '30',     rest: 45 },
+        { exerciseId: 'plank',            sets: 4, reps: '45 sec', rest: 30 },
+      ],
+    },
+    {
+      type: 'lower', title: 'Leg Day Intensity',
+      description: 'Maximum lower body volume. Rest only as long as needed.',
+      duration: 40, rest: false,
+      exercises: [
+        { exerciseId: 'squat',       sets: 5, reps: '18',     rest: 60 },
+        { exerciseId: 'lunge',       sets: 4, reps: '15',     rest: 60 },
+        { exerciseId: 'glute-bridge',sets: 5, reps: '18',     rest: 45 },
+        { exerciseId: 'wall-sit',    sets: 4, reps: '50 sec', rest: 30 },
+        { exerciseId: 'calf-raise',  sets: 4, reps: '25',     rest: 30 },
+      ],
+    },
+    {
+      type: 'upper', title: 'Push Peak',
+      description: 'Slow tempo, controlled eccentric. Make every rep count.',
+      duration: 40, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',      sets: 5, reps: '15',     rest: 60 },
+        { exerciseId: 'pike-push-up', sets: 4, reps: '12',     rest: 60 },
+        { exerciseId: 'tricep-dip',   sets: 4, reps: '15',     rest: 60 },
+        { exerciseId: 'inchworm',     sets: 4, reps: '10',     rest: 45 },
+        { exerciseId: 'side-plank',   sets: 4, reps: '30 sec', rest: 25 },
+      ],
+    },
+    {
+      type: 'core', title: 'Iron Core',
+      description: 'Your core is the foundation of everything. Make it bulletproof.',
+      duration: 25, rest: false,
+      exercises: [
+        { exerciseId: 'plank',          sets: 4, reps: '60 sec', rest: 30 },
+        { exerciseId: 'russian-twist',  sets: 4, reps: '28',     rest: 30 },
+        { exerciseId: 'leg-raise',      sets: 4, reps: '15',     rest: 30 },
+        { exerciseId: 'bicycle-crunch', sets: 4, reps: '30',     rest: 30 },
+        { exerciseId: 'superman',       sets: 4, reps: '15',     rest: 30 },
+      ],
+    },
+    {
+      type: 'hiit', title: 'Home HIIT Overdrive',
+      description: '25 sec on, 10 sec off. This one should leave you breathless.',
+      duration: 30, rest: false,
+      exercises: [
+        { exerciseId: 'jumping-jack',    sets: 5, reps: '25 sec', rest: 10 },
+        { exerciseId: 'burpee',          sets: 5, reps: '25 sec', rest: 10 },
+        { exerciseId: 'high-knees',      sets: 5, reps: '25 sec', rest: 10 },
+        { exerciseId: 'jump-squat',      sets: 5, reps: '25 sec', rest: 10 },
+        { exerciseId: 'mountain-climber',sets: 3, reps: '25 sec', rest: 10 },
+      ],
+    },
+    { type: 'rest', title: 'Rest Day', description: 'Rest is non-negotiable. Eat protein, sleep, repeat.', duration: 0, rest: true, exercises: [] },
+    {
+      type: 'active-recovery', title: 'Active Recovery',
+      description: 'Stay loose and mobile. One more week to go.',
+      duration: 20, rest: false,
+      exercises: [
+        { exerciseId: 'inchworm',    sets: 3, reps: '10',     rest: 30 },
+        { exerciseId: 'side-plank',  sets: 3, reps: '30 sec', rest: 25 },
+        { exerciseId: 'bear-crawl',  sets: 3, reps: '12',     rest: 30 },
+        { exerciseId: 'glute-bridge',sets: 2, reps: '15',     rest: 30 },
+      ],
+    },
+  ],
+  // WEEK 4 — Peak (5 sets, maximum output)
+  [
+    {
+      type: 'full-body', title: 'Home Full Body Finale',
+      description: 'Final week. Leave everything on the floor.',
+      duration: 45, rest: false,
+      exercises: [
+        { exerciseId: 'squat',            sets: 5, reps: '18',     rest: 60 },
+        { exerciseId: 'push-up',          sets: 5, reps: '18',     rest: 60 },
+        { exerciseId: 'lunge',            sets: 5, reps: '15',     rest: 60 },
+        { exerciseId: 'mountain-climber', sets: 5, reps: '30',     rest: 45 },
+        { exerciseId: 'plank',            sets: 5, reps: '45 sec', rest: 30 },
+      ],
+    },
+    {
+      type: 'lower', title: 'Leg Day Max',
+      description: 'The hardest leg session of the programme. Earn it.',
+      duration: 45, rest: false,
+      exercises: [
+        { exerciseId: 'squat',       sets: 5, reps: '20',     rest: 60 },
+        { exerciseId: 'lunge',       sets: 5, reps: '15',     rest: 60 },
+        { exerciseId: 'glute-bridge',sets: 5, reps: '20',     rest: 45 },
+        { exerciseId: 'wall-sit',    sets: 5, reps: '60 sec', rest: 30 },
+        { exerciseId: 'calf-raise',  sets: 5, reps: '30',     rest: 30 },
+      ],
+    },
+    {
+      type: 'upper', title: 'Push Max',
+      description: 'Final push session — hit numbers you could not dream of on Day 1.',
+      duration: 40, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',      sets: 5, reps: '18',     rest: 60 },
+        { exerciseId: 'pike-push-up', sets: 5, reps: '12',     rest: 60 },
+        { exerciseId: 'tricep-dip',   sets: 5, reps: '15',     rest: 60 },
+        { exerciseId: 'inchworm',     sets: 5, reps: '10',     rest: 45 },
+        { exerciseId: 'side-plank',   sets: 5, reps: '35 sec', rest: 25 },
+      ],
+    },
+    {
+      type: 'core', title: 'Core Final Test',
+      description: 'Your strongest core session. Prove how far you have come.',
+      duration: 25, rest: false,
+      exercises: [
+        { exerciseId: 'plank',          sets: 5, reps: '60 sec', rest: 30 },
+        { exerciseId: 'russian-twist',  sets: 5, reps: '30',     rest: 30 },
+        { exerciseId: 'leg-raise',      sets: 5, reps: '18',     rest: 30 },
+        { exerciseId: 'bicycle-crunch', sets: 5, reps: '30',     rest: 30 },
+        { exerciseId: 'superman',       sets: 5, reps: '18',     rest: 30 },
+      ],
+    },
+    {
+      type: 'hiit', title: 'Home HIIT Peak',
+      description: 'Final HIIT. 6 rounds. This is your moment.',
+      duration: 30, rest: false,
+      exercises: [
+        { exerciseId: 'jumping-jack',    sets: 6, reps: '25 sec', rest: 10 },
+        { exerciseId: 'burpee',          sets: 6, reps: '25 sec', rest: 10 },
+        { exerciseId: 'high-knees',      sets: 6, reps: '25 sec', rest: 10 },
+        { exerciseId: 'jump-squat',      sets: 6, reps: '25 sec', rest: 10 },
+        { exerciseId: 'mountain-climber',sets: 4, reps: '25 sec', rest: 10 },
+      ],
+    },
+    { type: 'rest', title: 'Rest Day', description: 'Rest. You have earned it and then some.', duration: 0, rest: true, exercises: [] },
+    {
+      type: 'active-recovery', title: 'Active Recovery',
+      description: 'Celebrate your last recovery day. Tomorrow is peak week complete.',
+      duration: 20, rest: false,
+      exercises: [
+        { exerciseId: 'inchworm',    sets: 3, reps: '10',     rest: 30 },
+        { exerciseId: 'side-plank',  sets: 3, reps: '35 sec', rest: 25 },
+        { exerciseId: 'bear-crawl',  sets: 3, reps: '15',     rest: 30 },
+        { exerciseId: 'glute-bridge',sets: 3, reps: '15',     rest: 30 },
+      ],
+    },
+  ],
+]
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CHALLENGE 7 — Calisthenics 30
+// Goal: strength | No equipment | Intermediate
+// Split: Upper Push → Lower Power → Full Body Circuit → Core → Explosive → Rest → Recovery
+// ─────────────────────────────────────────────────────────────────────────────
+const calisthenicsWeeks = [
+  // WEEK 1 — Foundation (3 sets, controlled tempo)
+  [
+    {
+      type: 'upper', title: 'Push Fundamentals',
+      description: 'Master the push-up and its progressions. Slow eccentric, full ROM.',
+      duration: 30, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',      sets: 3, reps: '12',     rest: 60 },
+        { exerciseId: 'pike-push-up', sets: 3, reps: '8',      rest: 60 },
+        { exerciseId: 'tricep-dip',   sets: 3, reps: '10',     rest: 60 },
+        { exerciseId: 'inchworm',     sets: 3, reps: '8',      rest: 45 },
+        { exerciseId: 'plank',        sets: 3, reps: '30 sec', rest: 30 },
+      ],
+    },
+    {
+      type: 'lower', title: 'Lower Body Power',
+      description: 'Explosive leg training — squat mechanics and jump preparation.',
+      duration: 30, rest: false,
+      exercises: [
+        { exerciseId: 'squat',       sets: 3, reps: '15',     rest: 60 },
+        { exerciseId: 'lunge',       sets: 3, reps: '12',     rest: 60 },
+        { exerciseId: 'jump-squat',  sets: 3, reps: '10',     rest: 60 },
+        { exerciseId: 'glute-bridge',sets: 3, reps: '15',     rest: 45 },
+        { exerciseId: 'wall-sit',    sets: 3, reps: '30 sec', rest: 30 },
+      ],
+    },
+    {
+      type: 'full-body', title: 'Full Body Circuit',
+      description: 'Move through compound patterns with minimal rest between exercises.',
+      duration: 30, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',          sets: 3, reps: '10',     rest: 45 },
+        { exerciseId: 'squat',            sets: 3, reps: '12',     rest: 45 },
+        { exerciseId: 'mountain-climber', sets: 3, reps: '20',     rest: 45 },
+        { exerciseId: 'plank',            sets: 3, reps: '30 sec', rest: 30 },
+        { exerciseId: 'burpee',           sets: 3, reps: '8',      rest: 60 },
+      ],
+    },
+    {
+      type: 'core', title: 'Core Foundations',
+      description: 'The calisthenics core — anti-rotation, anti-extension, stability.',
+      duration: 20, rest: false,
+      exercises: [
+        { exerciseId: 'plank',          sets: 3, reps: '45 sec', rest: 30 },
+        { exerciseId: 'leg-raise',      sets: 3, reps: '12',     rest: 30 },
+        { exerciseId: 'russian-twist',  sets: 3, reps: '20',     rest: 30 },
+        { exerciseId: 'side-plank',     sets: 3, reps: '20 sec', rest: 20 },
+        { exerciseId: 'superman',       sets: 3, reps: '12',     rest: 30 },
+      ],
+    },
+    {
+      type: 'hiit', title: 'Explosive Power Day',
+      description: 'Plyometric training to build athleticism and cardiovascular power.',
+      duration: 25, rest: false,
+      exercises: [
+        { exerciseId: 'burpee',          sets: 4, reps: '8',      rest: 60 },
+        { exerciseId: 'jump-squat',      sets: 4, reps: '10',     rest: 60 },
+        { exerciseId: 'high-knees',      sets: 4, reps: '30 sec', rest: 30 },
+        { exerciseId: 'mountain-climber',sets: 4, reps: '20 sec', rest: 30 },
+        { exerciseId: 'bear-crawl',      sets: 3, reps: '10',     rest: 45 },
+      ],
+    },
+    { type: 'rest', title: 'Rest Day', description: 'Complete rest. Let the tendons and joints recover.', duration: 0, rest: true, exercises: [] },
+    {
+      type: 'active-recovery', title: 'Mobility Flow',
+      description: 'Joint mobility and light movement. Prepare for next week.',
+      duration: 15, rest: false,
+      exercises: [
+        { exerciseId: 'inchworm',    sets: 2, reps: '8',      rest: 30 },
+        { exerciseId: 'side-plank',  sets: 2, reps: '20 sec', rest: 20 },
+        { exerciseId: 'glute-bridge',sets: 2, reps: '12',     rest: 30 },
+      ],
+    },
+  ],
+  // WEEK 2 — Build (4 sets, increase volume)
+  [
+    {
+      type: 'upper', title: 'Push Volume',
+      description: '4 sets this week. Slow the negative to 3 seconds.',
+      duration: 35, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',      sets: 4, reps: '14',     rest: 60 },
+        { exerciseId: 'pike-push-up', sets: 4, reps: '10',     rest: 60 },
+        { exerciseId: 'tricep-dip',   sets: 4, reps: '12',     rest: 60 },
+        { exerciseId: 'inchworm',     sets: 4, reps: '10',     rest: 45 },
+        { exerciseId: 'side-plank',   sets: 4, reps: '25 sec', rest: 25 },
+      ],
+    },
+    {
+      type: 'lower', title: 'Lower Body Strength',
+      description: 'More sets, more reps, more explosive power.',
+      duration: 35, rest: false,
+      exercises: [
+        { exerciseId: 'squat',       sets: 4, reps: '18',     rest: 60 },
+        { exerciseId: 'lunge',       sets: 4, reps: '14',     rest: 60 },
+        { exerciseId: 'jump-squat',  sets: 4, reps: '12',     rest: 60 },
+        { exerciseId: 'glute-bridge',sets: 4, reps: '18',     rest: 45 },
+        { exerciseId: 'wall-sit',    sets: 4, reps: '40 sec', rest: 30 },
+      ],
+    },
+    {
+      type: 'full-body', title: 'Circuit Intensity',
+      description: 'Reduce rest between exercises to 30 seconds. Maintain form.',
+      duration: 35, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',          sets: 4, reps: '12',     rest: 30 },
+        { exerciseId: 'squat',            sets: 4, reps: '15',     rest: 30 },
+        { exerciseId: 'mountain-climber', sets: 4, reps: '25',     rest: 30 },
+        { exerciseId: 'plank',            sets: 4, reps: '40 sec', rest: 30 },
+        { exerciseId: 'burpee',           sets: 4, reps: '10',     rest: 60 },
+      ],
+    },
+    {
+      type: 'core', title: 'Core Strength',
+      description: 'Longer holds, more reps. Your core is getting stronger.',
+      duration: 25, rest: false,
+      exercises: [
+        { exerciseId: 'plank',          sets: 4, reps: '50 sec', rest: 30 },
+        { exerciseId: 'leg-raise',      sets: 4, reps: '15',     rest: 30 },
+        { exerciseId: 'russian-twist',  sets: 4, reps: '25',     rest: 30 },
+        { exerciseId: 'side-plank',     sets: 4, reps: '25 sec', rest: 25 },
+        { exerciseId: 'superman',       sets: 4, reps: '15',     rest: 30 },
+      ],
+    },
+    {
+      type: 'hiit', title: 'Explosive Surge',
+      description: 'More reps, same rest. Plyometric power output rising.',
+      duration: 30, rest: false,
+      exercises: [
+        { exerciseId: 'burpee',          sets: 4, reps: '10',     rest: 60 },
+        { exerciseId: 'jump-squat',      sets: 4, reps: '12',     rest: 60 },
+        { exerciseId: 'high-knees',      sets: 4, reps: '35 sec', rest: 30 },
+        { exerciseId: 'mountain-climber',sets: 4, reps: '25 sec', rest: 30 },
+        { exerciseId: 'bear-crawl',      sets: 4, reps: '12',     rest: 45 },
+      ],
+    },
+    { type: 'rest', title: 'Rest Day', description: 'Rest. Adaptation happens during recovery, not training.', duration: 0, rest: true, exercises: [] },
+    {
+      type: 'active-recovery', title: 'Mobility Flow',
+      description: 'Light movement. Keep the joints primed.',
+      duration: 15, rest: false,
+      exercises: [
+        { exerciseId: 'inchworm',    sets: 2, reps: '10',     rest: 30 },
+        { exerciseId: 'side-plank',  sets: 2, reps: '25 sec', rest: 25 },
+        { exerciseId: 'glute-bridge',sets: 2, reps: '15',     rest: 30 },
+      ],
+    },
+  ],
+  // WEEK 3 — Push (5 sets, near max effort)
+  [
+    {
+      type: 'upper', title: 'Push Intensity',
+      description: '5 sets. 4-second eccentric on every push-up. This is where you grow.',
+      duration: 40, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',      sets: 5, reps: '15',     rest: 60 },
+        { exerciseId: 'pike-push-up', sets: 4, reps: '12',     rest: 60 },
+        { exerciseId: 'tricep-dip',   sets: 4, reps: '15',     rest: 60 },
+        { exerciseId: 'inchworm',     sets: 4, reps: '10',     rest: 45 },
+        { exerciseId: 'side-plank',   sets: 4, reps: '30 sec', rest: 25 },
+      ],
+    },
+    {
+      type: 'lower', title: 'Lower Body Max',
+      description: 'Heavy squat volume and explosive jumps. Maximum lower body output.',
+      duration: 40, rest: false,
+      exercises: [
+        { exerciseId: 'squat',       sets: 5, reps: '20',     rest: 60 },
+        { exerciseId: 'lunge',       sets: 4, reps: '15',     rest: 60 },
+        { exerciseId: 'jump-squat',  sets: 5, reps: '12',     rest: 60 },
+        { exerciseId: 'glute-bridge',sets: 5, reps: '20',     rest: 45 },
+        { exerciseId: 'wall-sit',    sets: 4, reps: '50 sec', rest: 30 },
+      ],
+    },
+    {
+      type: 'full-body', title: 'Circuit Peak',
+      description: 'Density training — more work in the same time. Rest 30 sec max.',
+      duration: 40, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',          sets: 5, reps: '14',     rest: 30 },
+        { exerciseId: 'squat',            sets: 5, reps: '16',     rest: 30 },
+        { exerciseId: 'mountain-climber', sets: 5, reps: '30',     rest: 30 },
+        { exerciseId: 'plank',            sets: 5, reps: '45 sec', rest: 30 },
+        { exerciseId: 'burpee',           sets: 4, reps: '12',     rest: 60 },
+      ],
+    },
+    {
+      type: 'core', title: 'Core Mastery',
+      description: 'True core mastery comes from control, not speed.',
+      duration: 25, rest: false,
+      exercises: [
+        { exerciseId: 'plank',          sets: 5, reps: '60 sec', rest: 30 },
+        { exerciseId: 'leg-raise',      sets: 4, reps: '18',     rest: 30 },
+        { exerciseId: 'russian-twist',  sets: 4, reps: '30',     rest: 30 },
+        { exerciseId: 'side-plank',     sets: 4, reps: '30 sec', rest: 25 },
+        { exerciseId: 'superman',       sets: 4, reps: '18',     rest: 30 },
+      ],
+    },
+    {
+      type: 'hiit', title: 'Explosive Overdrive',
+      description: '25-second intervals at maximum intensity. Do not hold back.',
+      duration: 30, rest: false,
+      exercises: [
+        { exerciseId: 'burpee',          sets: 5, reps: '12',     rest: 60 },
+        { exerciseId: 'jump-squat',      sets: 5, reps: '14',     rest: 60 },
+        { exerciseId: 'high-knees',      sets: 5, reps: '35 sec', rest: 25 },
+        { exerciseId: 'mountain-climber',sets: 5, reps: '25 sec', rest: 25 },
+        { exerciseId: 'bear-crawl',      sets: 4, reps: '15',     rest: 45 },
+      ],
+    },
+    { type: 'rest', title: 'Rest Day', description: 'One more week. Rest hard, train harder.', duration: 0, rest: true, exercises: [] },
+    {
+      type: 'active-recovery', title: 'Mobility Flow',
+      description: 'Prioritise shoulder and hip mobility before the final week.',
+      duration: 20, rest: false,
+      exercises: [
+        { exerciseId: 'inchworm',    sets: 3, reps: '10',     rest: 30 },
+        { exerciseId: 'side-plank',  sets: 3, reps: '30 sec', rest: 25 },
+        { exerciseId: 'glute-bridge',sets: 3, reps: '15',     rest: 30 },
+        { exerciseId: 'bear-crawl',  sets: 2, reps: '12',     rest: 40 },
+      ],
+    },
+  ],
+  // WEEK 4 — Peak (5+ sets, maximum output)
+  [
+    {
+      type: 'upper', title: 'Push Final',
+      description: 'The hardest push session of your life. Prove it to yourself.',
+      duration: 45, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',      sets: 5, reps: '18',     rest: 60 },
+        { exerciseId: 'pike-push-up', sets: 5, reps: '14',     rest: 60 },
+        { exerciseId: 'tricep-dip',   sets: 5, reps: '15',     rest: 60 },
+        { exerciseId: 'inchworm',     sets: 5, reps: '12',     rest: 45 },
+        { exerciseId: 'side-plank',   sets: 5, reps: '35 sec', rest: 25 },
+      ],
+    },
+    {
+      type: 'lower', title: 'Lower Body Finale',
+      description: 'Maximum leg volume. Every rep is a step closer to the finish line.',
+      duration: 45, rest: false,
+      exercises: [
+        { exerciseId: 'squat',       sets: 5, reps: '22',     rest: 60 },
+        { exerciseId: 'lunge',       sets: 5, reps: '15',     rest: 60 },
+        { exerciseId: 'jump-squat',  sets: 5, reps: '15',     rest: 60 },
+        { exerciseId: 'glute-bridge',sets: 5, reps: '22',     rest: 45 },
+        { exerciseId: 'wall-sit',    sets: 5, reps: '60 sec', rest: 30 },
+      ],
+    },
+    {
+      type: 'full-body', title: 'Circuit Finale',
+      description: 'Full body, max effort, minimal rest. Your best session yet.',
+      duration: 45, rest: false,
+      exercises: [
+        { exerciseId: 'push-up',          sets: 5, reps: '16',     rest: 30 },
+        { exerciseId: 'squat',            sets: 5, reps: '18',     rest: 30 },
+        { exerciseId: 'mountain-climber', sets: 5, reps: '30',     rest: 30 },
+        { exerciseId: 'plank',            sets: 5, reps: '60 sec', rest: 30 },
+        { exerciseId: 'burpee',           sets: 5, reps: '14',     rest: 60 },
+      ],
+    },
+    {
+      type: 'core', title: 'Core Finale',
+      description: 'Five rounds. Show your core who is in charge.',
+      duration: 30, rest: false,
+      exercises: [
+        { exerciseId: 'plank',          sets: 5, reps: '75 sec', rest: 30 },
+        { exerciseId: 'leg-raise',      sets: 5, reps: '20',     rest: 30 },
+        { exerciseId: 'russian-twist',  sets: 5, reps: '30',     rest: 30 },
+        { exerciseId: 'side-plank',     sets: 5, reps: '35 sec', rest: 25 },
+        { exerciseId: 'superman',       sets: 5, reps: '20',     rest: 30 },
+      ],
+    },
+    {
+      type: 'hiit', title: 'Explosive Peak',
+      description: 'Six rounds. This is it — the final HIIT. Make it your best.',
+      duration: 35, rest: false,
+      exercises: [
+        { exerciseId: 'burpee',          sets: 6, reps: '12',     rest: 60 },
+        { exerciseId: 'jump-squat',      sets: 6, reps: '15',     rest: 60 },
+        { exerciseId: 'high-knees',      sets: 6, reps: '35 sec', rest: 25 },
+        { exerciseId: 'mountain-climber',sets: 6, reps: '25 sec', rest: 25 },
+        { exerciseId: 'bear-crawl',      sets: 4, reps: '15',     rest: 45 },
+      ],
+    },
+    { type: 'rest', title: 'Rest Day', description: 'Final rest day. Tomorrow you celebrate 30 days of calisthenics.', duration: 0, rest: true, exercises: [] },
+    {
+      type: 'active-recovery', title: 'Final Mobility Flow',
+      description: 'Slow down. Reflect on how far you have come. Move freely.',
+      duration: 20, rest: false,
+      exercises: [
+        { exerciseId: 'inchworm',    sets: 3, reps: '10',     rest: 30 },
+        { exerciseId: 'side-plank',  sets: 3, reps: '35 sec', rest: 25 },
+        { exerciseId: 'glute-bridge',sets: 3, reps: '15',     rest: 30 },
+        { exerciseId: 'bear-crawl',  sets: 3, reps: '15',     rest: 40 },
+      ],
+    },
+  ],
+]
+
 export const challenges = [
   {
     id: 'fat-blaster-30',
     title: 'Fat Blaster 30',
-    subtitle: 'Burn fat, boost metabolism, transform your body',
-    description: 'A science-backed 30-day challenge combining full body strength, HIIT, and cardio to maximise fat loss while preserving muscle. No equipment needed.',
+    subtitle: 'Torch fat with zero equipment in 30 days',
+    description: 'A high-intensity bodyweight programme designed to shred fat fast. Five days a week, no equipment, progressive volume. The most efficient path from couch to lean.',
     goal: 'weight-loss',
     level: 'beginner',
     daysPerWeek: 5,
@@ -1381,14 +1988,14 @@ export const challenges = [
     equipment: 'none',
     color: '#ff4d3d',
     emoji: '🔥',
-    benefits: ['Burn 300-500 extra calories per session', 'Boost resting metabolism', 'Build functional strength', 'Improve cardiovascular endurance'],
+    benefits: ['Burn maximum calories with HIIT and circuits', 'Zero equipment — do it anywhere', 'Builds cardio and strength simultaneously', 'Progressive volume keeps results coming'],
     schedule: generateSchedule(fatBlasterWeeks),
   },
   {
     id: 'muscle-builder-30',
     title: 'Muscle Builder 30',
-    subtitle: 'Push Pull Legs — the gold standard muscle-building split',
-    description: 'A classic PPL (Push/Pull/Legs) 30-day challenge designed to add lean muscle and definition. Progressive overload built in week to week. Gym required.',
+    subtitle: 'Add serious size with a structured gym split',
+    description: 'A 30-day progressive hypertrophy programme using a Push/Pull/Legs split. Six training days per week, gym required. Each week adds volume and intensity to maximise muscle growth.',
     goal: 'muscle',
     level: 'intermediate',
     daysPerWeek: 6,
@@ -1396,7 +2003,7 @@ export const challenges = [
     equipment: 'gym',
     color: '#6366f1',
     emoji: '💪',
-    benefits: ['Proven PPL split for muscle hypertrophy', 'Each muscle trained 2× per week', 'Progressive overload every week', 'Build size and definition simultaneously'],
+    benefits: ['PPL split for complete muscular development', 'Progressive volume every week', 'Optimised for hypertrophy (8–12 rep ranges)', 'Builds the habit of consistent gym training'],
     schedule: generateSchedule(muscleBuilderWeeks),
   },
   {
@@ -1443,6 +2050,36 @@ export const challenges = [
     emoji: '🧘',
     benefits: ['Stronger, more stable core', 'Improved flexibility and range of motion', 'Better posture and less back pain', 'Foundation for all other athletic training'],
     schedule: generateSchedule(coreFlexWeeks),
+  },
+  {
+    id: 'home-muscle-30',
+    title: 'Home Muscle Builder 30',
+    subtitle: 'Build visible muscle at home — zero equipment, proven science',
+    description: 'A 30-day bodyweight hypertrophy programme engineered for home training. Using progressive volume and time-under-tension, you will build visible muscle without touching a single piece of gym equipment. No gym, no excuses — just results.',
+    goal: 'muscle',
+    level: 'intermediate',
+    daysPerWeek: 5,
+    duration: 30,
+    equipment: 'none',
+    color: '#8b5cf6',
+    emoji: '🏠',
+    benefits: ['Build real muscle without any equipment', 'Progressive overload through volume and tempo', 'Upper, lower, and core split from home', 'HIIT sessions to keep body fat low', 'Scalable for any fitness level'],
+    schedule: generateSchedule(homeMuscleWeeks),
+  },
+  {
+    id: 'calisthenics-30',
+    title: 'Calisthenics 30',
+    subtitle: 'Master your bodyweight — the original no-gym strength method',
+    description: 'A 30-day calisthenics challenge that builds impressive bodyweight strength from home. Master push-up progressions, explosive lower body power, and bulletproof core strength. No gym, no machines — just you versus gravity.',
+    goal: 'strength',
+    level: 'intermediate',
+    daysPerWeek: 5,
+    duration: 30,
+    equipment: 'none',
+    color: '#0ea5e9',
+    emoji: '🤸',
+    benefits: ['Master push-up and squat progressions', 'Build explosive power with plyometric training', 'Develop bulletproof core strength', 'Improve body control and coordination', 'Train anywhere — no gym required'],
+    schedule: generateSchedule(calisthenicsWeeks),
   },
 ]
 
