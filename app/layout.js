@@ -57,7 +57,7 @@ export default function RootLayout({ children }) {
       >
         <body className='min-h-screen flex flex-col font-sans bg-black text-zinc-100'>
           <Navbar />
-          <main className='flex-1 relative top-14'>{children}</main>
+          <main className='flex-1 relative mt-14'>{children}</main>
           <Footer />
         </body>
       </html>
