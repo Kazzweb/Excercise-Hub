@@ -1,11 +1,12 @@
 'use server'
 
 import { auth } from '@clerk/nextjs/server'
-import { supabase } from '../../lib/supabase'
+import { createServerSupabaseClient } from '../../lib/supabase-server'
 
 export async function logMeal({ date, meal_type, food_name, calories, protein_g = 0, carbs_g = 0, fat_g = 0 }) {
   const { userId } = await auth()
   if (!userId) throw new Error('Not authenticated')
+  const supabase = await createServerSupabaseClient()
 
   const { data, error } = await supabase
     .from('calorie_logs')
@@ -20,6 +21,7 @@ export async function logMeal({ date, meal_type, food_name, calories, protein_g 
 export async function getMealsForDate(date) {
   const { userId } = await auth()
   if (!userId) throw new Error('Not authenticated')
+  const supabase = await createServerSupabaseClient()
 
   const { data, error } = await supabase
     .from('calorie_logs')
@@ -35,6 +37,7 @@ export async function getMealsForDate(date) {
 export async function deleteMeal(id) {
   const { userId } = await auth()
   if (!userId) throw new Error('Not authenticated')
+  const supabase = await createServerSupabaseClient()
 
   const { error } = await supabase
     .from('calorie_logs')
@@ -49,6 +52,7 @@ export async function deleteMeal(id) {
 export async function getActivityDates() {
   const { userId } = await auth()
   if (!userId) throw new Error('Not authenticated')
+  const supabase = await createServerSupabaseClient()
 
   const { data, error } = await supabase
     .from('calorie_logs')

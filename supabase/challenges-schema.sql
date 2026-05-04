@@ -30,5 +30,11 @@ CREATE INDEX IF NOT EXISTS idx_challenge_day_logs_user    ON challenge_day_logs 
 ALTER TABLE challenge_enrollments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE challenge_day_logs    ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Allow all for anon" ON challenge_enrollments FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON challenge_day_logs    FOR ALL USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Allow all for anon" ON challenge_enrollments;
+DROP POLICY IF EXISTS "Allow all for anon" ON challenge_day_logs;
+
+CREATE POLICY "Users access own rows" ON challenge_enrollments
+  FOR ALL USING ((auth.jwt() ->> 'sub') = user_id) WITH CHECK ((auth.jwt() ->> 'sub') = user_id);
+
+CREATE POLICY "Users access own rows" ON challenge_day_logs
+  FOR ALL USING ((auth.jwt() ->> 'sub') = user_id) WITH CHECK ((auth.jwt() ->> 'sub') = user_id);

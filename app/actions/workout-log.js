@@ -1,11 +1,12 @@
 'use server'
 
 import { auth } from '@clerk/nextjs/server'
-import { supabase } from '../../lib/supabase'
+import { createServerSupabaseClient } from '../../lib/supabase-server'
 
 export async function logWorkout({ workout_id, workout_title, duration_minutes }) {
   const { userId } = await auth()
   if (!userId) throw new Error('Not authenticated')
+  const supabase = await createServerSupabaseClient()
 
   const today = new Date()
   const date = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
@@ -24,6 +25,7 @@ export async function logWorkout({ workout_id, workout_title, duration_minutes }
 export async function getWorkoutActivityDates() {
   const { userId } = await auth()
   if (!userId) throw new Error('Not authenticated')
+  const supabase = await createServerSupabaseClient()
 
   const { data, error } = await supabase
     .from('workout_logs')

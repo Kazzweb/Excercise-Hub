@@ -1,11 +1,12 @@
 'use server'
 
 import { auth } from '@clerk/nextjs/server'
-import { supabase } from '../../lib/supabase'
+import { createServerSupabaseClient } from '../../lib/supabase-server'
 
 export async function enrollInChallenge(challengeId) {
   const { userId } = await auth()
   if (!userId) throw new Error('Not authenticated')
+  const supabase = await createServerSupabaseClient()
 
   const today = new Date().toISOString().split('T')[0]
 
@@ -22,6 +23,7 @@ export async function enrollInChallenge(challengeId) {
 export async function completeChallengeDay(challengeId, dayNumber) {
   const { userId } = await auth()
   if (!userId) throw new Error('Not authenticated')
+  const supabase = await createServerSupabaseClient()
 
   const { data, error } = await supabase
     .from('challenge_day_logs')
@@ -36,6 +38,7 @@ export async function completeChallengeDay(challengeId, dayNumber) {
 export async function uncompleteChallengeDay(challengeId, dayNumber) {
   const { userId } = await auth()
   if (!userId) throw new Error('Not authenticated')
+  const supabase = await createServerSupabaseClient()
 
   const { error } = await supabase
     .from('challenge_day_logs')
@@ -51,6 +54,7 @@ export async function uncompleteChallengeDay(challengeId, dayNumber) {
 export async function getChallengeProgress(challengeId) {
   const { userId } = await auth()
   if (!userId) throw new Error('Not authenticated')
+  const supabase = await createServerSupabaseClient()
 
   const [{ data: enrollment }, { data: logs }] = await Promise.all([
     supabase.from('challenge_enrollments').select('*').eq('user_id', userId).eq('challenge_id', challengeId).maybeSingle(),
@@ -67,6 +71,7 @@ export async function getChallengeProgress(challengeId) {
 export async function getUserChallenges() {
   const { userId } = await auth()
   if (!userId) throw new Error('Not authenticated')
+  const supabase = await createServerSupabaseClient()
 
   const [{ data: enrollments }, { data: logs }] = await Promise.all([
     supabase.from('challenge_enrollments').select('*').eq('user_id', userId),

@@ -49,16 +49,24 @@ CREATE INDEX IF NOT EXISTS idx_body_measurements_user_date ON body_measurements 
 
 -- ============================================================
 -- Row Level Security (RLS)
--- Users can only read/write their own rows.
--- We use Clerk userId stored in each row — no Supabase auth needed.
--- Policies below allow all operations since auth is handled by Clerk
--- on the app side. Tighten these if you add Supabase Auth later.
+-- Each user can only read/write rows where user_id matches their Clerk JWT sub claim.
+-- Requires a Clerk JWT template named "supabase" configured in Clerk Dashboard.
 -- ============================================================
 ALTER TABLE calorie_logs       ENABLE ROW LEVEL SECURITY;
 ALTER TABLE workout_logs       ENABLE ROW LEVEL SECURITY;
 ALTER TABLE body_measurements  ENABLE ROW LEVEL SECURITY;
 
--- Allow full access via anon key (Clerk guards the API routes)
-CREATE POLICY "Allow all for anon" ON calorie_logs      FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON workout_logs      FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Allow all for anon" ON body_measurements FOR ALL USING (true) WITH CHECK (true);
+-- Policies enforce that each user can only access their own rows.
+-- Requires Clerk JWT template named "supabase" — see README for setup.
+DROP POLICY IF EXISTS "Allow all for anon" ON calorie_logs;
+DROP POLICY IF EXISTS "Allow all for anon" ON workout_logs;
+DROP POLICY IF EXISTS "Allow all for anon" ON body_measurements;
+
+CREATE POLICY "Users access own rows" ON calorie_logs
+  FOR ALL USING ((auth.jwt() ->> 'sub') = user_id) WITH CHECK ((auth.jwt() ->> 'sub') = user_id);
+
+CREATE POLICY "Users access own rows" ON workout_logs
+  FOR ALL USING ((auth.jwt() ->> 'sub') = user_id) WITH CHECK ((auth.jwt() ->> 'sub') = user_id);
+
+CREATE POLICY "Users access own rows" ON body_measurements
+  FOR ALL USING ((auth.jwt() ->> 'sub') = user_id) WITH CHECK ((auth.jwt() ->> 'sub') = user_id);
